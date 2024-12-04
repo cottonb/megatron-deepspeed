@@ -1,0 +1,506 @@
+[2024-11-28 20:03:24,914] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:25,366] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:28,690] [WARNING] [runner.py:215:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2024-11-28 20:03:28,691] [INFO] [runner.py:607:main] cmd = /usr/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMV19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py --override-opt_param-scheduler --adam-beta1 0.9 --adam-beta2 0.95 --tensor-model-parallel-size 2 --moe-expert-parallel-size 1 --num-experts 1 --moe-loss-coeff 0.01 --moe-train-capacity-factor 1.0 --moe-eval-capacity-factor 1.0 --moe-min-capacity 4 --init-method-std 0.014 --lr-decay-tokens 260000000000 --lr-warmup-tokens 375000000 --micro-batch-size 2 --exit-duration-in-mins 30000000 --rampup-batch-size 32 32 1953125 --global-batch-size 256 --num-layers 24 --hidden-size 1024 --num-attention-heads 16 --seq-length 2048 --max-position-embeddings 2048 --train-tokens 300000000000 --train-samples 439453125 --lr 3.0e-4 --min-lr 3.0e-5 --lr-decay-style cosine --split 98,2,0 --log-interval 1 --eval-interval 100 --eval-iters 10 --save-interval 1000 --weight-decay 0.1 --clip-grad 1.0 --hysteresis 2 --num-workers 0 --fp16 --load /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1 --save /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1 --tensorboard-queue-size 1 --log-timers-to-tensorboard --timing-log-level 1 --no-pipeline-parallel --cpu-optimizer --log-batch-size-to-tensorboard --log-validation-ppl-to-tensorboard --tensorboard-dir /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/tensorboard/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1_jo-c76qi7jstfxxctvg-worker-0_2024.11.28-20.03.22 --checkpoint-activations --vocab-file /data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json --merge-file /data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-merges.txt --data-path /data/users/guanhua/Megatron-DeepSpeed/dataset/BookCorpusDataset_text_document --data-impl mmap --deepspeed --deepspeed_config ds_config_gpt_gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1.json --pipeline-model-parallel-size 1 --deepspeed-activation-checkpointing
+[2024-11-28 20:03:31,308] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:31,745] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:34,840] [INFO] [launch.py:139:main] 0 NCCL_VERSION=2.19.3
+[2024-11-28 20:03:34,840] [INFO] [launch.py:146:main] WORLD INFO DICT: {'localhost': [0, 1]}
+[2024-11-28 20:03:34,840] [INFO] [launch.py:152:main] nnodes=1, num_local_procs=2, node_rank=0
+[2024-11-28 20:03:34,841] [INFO] [launch.py:163:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1]})
+[2024-11-28 20:03:34,841] [INFO] [launch.py:164:main] dist_world_size=2
+[2024-11-28 20:03:34,841] [INFO] [launch.py:168:main] Setting CUDA_VISIBLE_DEVICES=0,1
+[2024-11-28 20:03:34,842] [INFO] [launch.py:256:main] process 2801 spawned with command: ['/usr/bin/python', '-u', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py', '--local_rank=0', '--override-opt_param-scheduler', '--adam-beta1', '0.9', '--adam-beta2', '0.95', '--tensor-model-parallel-size', '2', '--moe-expert-parallel-size', '1', '--num-experts', '1', '--moe-loss-coeff', '0.01', '--moe-train-capacity-factor', '1.0', '--moe-eval-capacity-factor', '1.0', '--moe-min-capacity', '4', '--init-method-std', '0.014', '--lr-decay-tokens', '260000000000', '--lr-warmup-tokens', '375000000', '--micro-batch-size', '2', '--exit-duration-in-mins', '30000000', '--rampup-batch-size', '32', '32', '1953125', '--global-batch-size', '256', '--num-layers', '24', '--hidden-size', '1024', '--num-attention-heads', '16', '--seq-length', '2048', '--max-position-embeddings', '2048', '--train-tokens', '300000000000', '--train-samples', '439453125', '--lr', '3.0e-4', '--min-lr', '3.0e-5', '--lr-decay-style', 'cosine', '--split', '98,2,0', '--log-interval', '1', '--eval-interval', '100', '--eval-iters', '10', '--save-interval', '1000', '--weight-decay', '0.1', '--clip-grad', '1.0', '--hysteresis', '2', '--num-workers', '0', '--fp16', '--load', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1', '--save', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1', '--tensorboard-queue-size', '1', '--log-timers-to-tensorboard', '--timing-log-level', '1', '--no-pipeline-parallel', '--cpu-optimizer', '--log-batch-size-to-tensorboard', '--log-validation-ppl-to-tensorboard', '--tensorboard-dir', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/tensorboard/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1_jo-c76qi7jstfxxctvg-worker-0_2024.11.28-20.03.22', '--checkpoint-activations', '--vocab-file', '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json', '--merge-file', '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-merges.txt', '--data-path', '/data/users/guanhua/Megatron-DeepSpeed/dataset/BookCorpusDataset_text_document', '--data-impl', 'mmap', '--deepspeed', '--deepspeed_config', 'ds_config_gpt_gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1.json', '--pipeline-model-parallel-size', '1', '--deepspeed-activation-checkpointing']
+[2024-11-28 20:03:34,844] [INFO] [launch.py:256:main] process 2802 spawned with command: ['/usr/bin/python', '-u', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py', '--local_rank=1', '--override-opt_param-scheduler', '--adam-beta1', '0.9', '--adam-beta2', '0.95', '--tensor-model-parallel-size', '2', '--moe-expert-parallel-size', '1', '--num-experts', '1', '--moe-loss-coeff', '0.01', '--moe-train-capacity-factor', '1.0', '--moe-eval-capacity-factor', '1.0', '--moe-min-capacity', '4', '--init-method-std', '0.014', '--lr-decay-tokens', '260000000000', '--lr-warmup-tokens', '375000000', '--micro-batch-size', '2', '--exit-duration-in-mins', '30000000', '--rampup-batch-size', '32', '32', '1953125', '--global-batch-size', '256', '--num-layers', '24', '--hidden-size', '1024', '--num-attention-heads', '16', '--seq-length', '2048', '--max-position-embeddings', '2048', '--train-tokens', '300000000000', '--train-samples', '439453125', '--lr', '3.0e-4', '--min-lr', '3.0e-5', '--lr-decay-style', 'cosine', '--split', '98,2,0', '--log-interval', '1', '--eval-interval', '100', '--eval-iters', '10', '--save-interval', '1000', '--weight-decay', '0.1', '--clip-grad', '1.0', '--hysteresis', '2', '--num-workers', '0', '--fp16', '--load', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1', '--save', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1', '--tensorboard-queue-size', '1', '--log-timers-to-tensorboard', '--timing-log-level', '1', '--no-pipeline-parallel', '--cpu-optimizer', '--log-batch-size-to-tensorboard', '--log-validation-ppl-to-tensorboard', '--tensorboard-dir', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/tensorboard/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1_jo-c76qi7jstfxxctvg-worker-0_2024.11.28-20.03.22', '--checkpoint-activations', '--vocab-file', '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json', '--merge-file', '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-merges.txt', '--data-path', '/data/users/guanhua/Megatron-DeepSpeed/dataset/BookCorpusDataset_text_document', '--data-impl', 'mmap', '--deepspeed', '--deepspeed_config', 'ds_config_gpt_gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1.json', '--pipeline-model-parallel-size', '1', '--deepspeed-activation-checkpointing']
+[2024-11-28 20:03:37,597] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:37,773] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:38,047] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 20:03:38,085] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+--------------------------------------------------
+DeepSpeed C++/CUDA extension op report
+----------------------------------------------------------------------------------------------------
+
+NOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.DeepSpeed C++/CUDA extension op report
+
+----------------------------------------------------------------------------------------------------
+
+JIT compiled ops requires ninjaNOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.
+
+--------------------------------------------------
+JIT compiled ops requires ninja
+ninja .................. [92m[OKAY][0mninja 
+--------------------------------------------------.................. 
+op name[92m[OKAY][0m
+ ................--------------------------------------------------
+ installedop name  ..................  compatibleinstalled 
+--------------------------------------------------.. 
+compatible
+--------------------------------------------------
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+evoformer_attn ......... [93m[NO][0m .......[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+ [93m[NO][0m[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+evoformer_attn ......... [93m[NO][0m ....... [93m[NO][0m
+[93m [WARNING] [0m FP Quantizer is using an untested triton version (2.1.0), only 2.3.(0, 1) and 3.0.0 are known to be compatible with these kernels
+[93m [WARNING] [0m FP Quantizer is using an untested triton version (2.1.0), only 2.3.(0, 1) and 3.0.0 are known to be compatible with these kernels
+fp_quantizer fp_quantizer ........... ........... [93m[NO][0m [93m[NO][0m ....... ....... [93m[NO][0m
+[93m[NO][0m
+fused_lamb fused_lamb ............. ............. [93m[NO][0m [93m[NO][0m ....... ....... [92m[OKAY][0m
+[92m[OKAY][0m
+fused_lion fused_lion ............. ............. [93m[NO][0m [93m[NO][0m ....... ....... [92m[OKAY][0m
+[92m[OKAY][0m
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmppkc8f4ge/test.c -o /tmp/tmppkc8f4ge/test.o
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmpwl5889ih/test.c -o /tmp/tmpwl5889ih/test.o
+x86_64-linux-gnu-gcc /tmp/tmpwl5889ih/test.o -L/usr/local/cuda -L/usr/local/cuda/lib64 -lcufile -o /tmp/tmpwl5889ih/a.out
+x86_64-linux-gnu-gcc /tmp/tmppkc8f4ge/test.o -L/usr/local/cuda -L/usr/local/cuda/lib64 -lcufile -o /tmp/tmppkc8f4ge/a.out
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmpzi9g8uq1/test.c -o /tmp/tmpzi9g8uq1/test.o
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmph0u4quvu/test.c -o /tmp/tmph0u4quvu/test.o
+x86_64-linux-gnu-gcc /tmp/tmpzi9g8uq1/test.o -laio -o /tmp/tmpzi9g8uq1/a.out
+x86_64-linux-gnu-gcc /tmp/tmph0u4quvu/test.o -laio -o /tmp/tmph0u4quvu/a.out
+[93m [WARNING] [0m gds requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m gds requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m gds: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+[93m [WARNING] [0m gds: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+transformer_inference .. [93m[NO][0m ....... [92m[OKAY][0m
+transformer_inferenceinference_core_ops  ..... ..[93m[NO][0m  ....... [93m[NO][0m[92m[OKAY][0m
+ ....... [92m[OKAY][0m
+cutlass_ops ............ [93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+inference_core_ops ..... [93m[NO][0m ....... [92m[OKAY][0m
+ragged_device_ops ......cutlass_ops [93m[NO][0m  ................... [92m[OKAY][0m 
+[93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+ragged_ops .............ragged_device_ops [93m[NO][0m  ............. [92m[OKAY][0m 
+random_ltd[93m[NO][0m  .................... [93m[NO][0m [92m[OKAY][0m .......
+ [92m[OKAY][0m
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.2
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+sparse_attn ............ [93m[NO][0m ....... [93m[NO][0m
+ragged_ops ............. [93m[NO][0m ....... [92m[OKAY][0m
+random_ltd ............. spatial_inference [93m[NO][0m......  [93m[NO][0m ..............  [92m[OKAY][0m[92m[OKAY][0m
+
+transformer [93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.2............ 
+[93m[NO][0m ....... [93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible[92m[OKAY][0m
+
+stochastic_transformer sparse_attn.  [93m[NO][0m ............ ....... [93m[NO][0m[92m[OKAY][0m
+ --------------------------------------------------
+....... [93m[NO][0m
+spatial_inference ...... [93m[NO][0m ....... [92m[OKAY][0m
+transformer ............ [93m[NO][0m DeepSpeed general environment info:
+....... torch install path [92m[OKAY][0m............... 
+['/usr/local/lib/python3.10/dist-packages/torch']
+stochastic_transformertorch version  .................... . 2.2.0a0+6a974be
+[93m[NO][0m deepspeed install path ..................  ['/mnt/huangyonghua/huangyonghua/DeepSpeed/deepspeed']
+[92m[OKAY][0mdeepspeed info 
+................... --------------------------------------------------0.0.0, [none], [none]
+
+torch cuda version ............... 12.3
+torch hip version ................ None
+nvcc version ..................... 12.3
+deepspeed wheel compiled w. ...... torch 0.0, cuda 0.0
+shared memory (/dev/shm) size .... 112.00 GB
+DeepSpeed general environment info:
+torch install path ............... ['/usr/local/lib/python3.10/dist-packages/torch']
+torch version .................... 2.2.0a0+6a974be
+deepspeed install path ........... ['/mnt/huangyonghua/huangyonghua/DeepSpeed/deepspeed']
+deepspeed info ................... 0.0.0, [none], [none]
+torch cuda version ............... 12.3
+torch hip version ................ None
+nvcc version ..................... 12.3
+deepspeed wheel compiled w. ...... torch 0.0, cuda 0.0
+shared memory (/dev/shm) size .... 112.00 GB
+**** Git info for Megatron: git_hash=6acc370 git_branch=main ****
+**** Git info for Megatron: git_hash=6acc370 git_branch=main ****
+Traceback (most recent call last):
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py", line 356, in <module>
+using world size: 2, data-parallel-size: 1, sequence-parallel size: 1, tensor-model-parallel size: 2, pipeline-model-parallel size: 1 
+using torch.float16 for parameters ...
+------------------------ arguments ------------------------
+    pretrain(train_valid_test_datasets_provider,
+  accumulate_allreduce_grads_in_fp32 .............. False
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/training.py", line 129, in pretrain
+  adam_beta1 ...................................... 0.9
+  adam_beta2 ...................................... 0.95
+  adam_eps ........................................ 1e-08    initialize_megatron(extra_args_provider=extra_args_provider,
+  add_bias_linear ................................. True
+
+  add_position_embedding .......................... True  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/initialize.py", line 63, in initialize_megatron
+
+  adlr_autoresume ................................. False
+  adlr_autoresume_interval ........................ 1000
+  aml_data_download_path .......................... None
+  apply_layernorm_1p .............................. False
+  apply_query_key_layer_scaling ................... True
+  apply_residual_connection_post_layernorm ........ False
+  async_tensor_model_parallel_allreduce ........... False
+    set_global_variables(args)  attention_dropout ............................... 0.1
+
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/global_vars.py", line 99, in set_global_variables
+  attention_softmax_in_fp32 ....................... False
+  barrier_with_L1_time ............................ True
+  bert_binary_head ................................ True
+  bert_embedder_type .............................. megatron
+  bert_load ....................................... None
+  bf16 ............................................ False
+    _ = _build_tokenizer(args)  bias_dropout_fusion ............................. True
+
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/global_vars.py", line 133, in _build_tokenizer
+  bias_gelu_fusion ................................ True
+  biencoder_projection_dim ........................ 0
+  biencoder_shared_query_context_model ............ False    _GLOBAL_TOKENIZER = build_tokenizer(args)
+  block_data_path ................................. None
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/tokenizer/tokenizer.py", line 32, in build_tokenizer
+
+  checkpoint_activations .......................... True
+  checkpoint_in_cpu ............................... False
+  checkpoint_num_layers ........................... 1
+  classes_fraction ................................ 1.0
+  clip_grad ....................................... 1.0
+  compression_training ............................ False
+  consumed_train_samples .......................... 0
+  consumed_train_tokens ........................... 0
+  consumed_valid_samples .......................... 0
+  contigious_checkpointing ........................ False    tokenizer = _GPT2BPETokenizer(args.vocab_file, args.merge_file)
+  cpu_optimizer ................................... True
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/tokenizer/tokenizer.py", line 270, in __init__
+
+  cpu_torch_adam .................................. False
+  create_moe_param_group .......................... False
+  curriculum_learning_legacy ...................... False    self.tokenizer = GPT2Tokenizer(vocab_file, merge_file, errors='replace',
+  data_cache_path ................................. None
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/tokenizer/gpt2_tokenization.py", line 159, in __init__
+
+  data_efficiency_curriculum_learning ............. False
+  data_impl ....................................... mmap
+  data_parallel_random_init ....................... False
+  data_parallel_size .............................. 1
+  data_path ....................................... ['/data/users/guanhua/Megatron-DeepSpeed/dataset/BookCorpusDataset_text_document']
+  data_per_class_fraction ......................... 1.0
+    self.encoder = json.load(open(vocab_file))  data_sharding ................................... True
+
+  dataloader_type ................................. single
+FileNotFoundError  DDP_impl ........................................ local
+: [Errno 2] No such file or directory: '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json'  decoder_num_layers .............................. None
+
+  decoder_seq_length .............................. None
+  deepscale ....................................... False
+  deepscale_config ................................ None
+  deepspeed ....................................... True
+  deepspeed_activation_checkpointing .............. True
+  deepspeed_config ................................ ds_config_gpt_gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1.json
+  dino_bottleneck_size ............................ 256
+  dino_freeze_last_layer .......................... 1
+  dino_head_hidden_size ........................... 2048
+  dino_local_crops_number ......................... 10
+  dino_local_img_size ............................. 96
+  dino_norm_last_layer ............................ False
+  dino_teacher_temp ............................... 0.07
+  dino_warmup_teacher_temp ........................ 0.04
+  dino_warmup_teacher_temp_epochs ................. 30
+  distribute_checkpointed_activations ............. False
+  distribute_saved_activations .................... False
+  distributed_backend ............................. nccl
+  distributed_timeout_minutes ..................... 10
+  ds_fused_adam ................................... False
+  ds_inference .................................... False
+  ds_pipeline_enabled ............................. False
+  ds_sequence_parallel_size ....................... 1
+  embedding_path .................................. None
+  embedding_weights_in_fp32 ....................... False
+  empty_unused_memory_level ....................... 0
+  enable_expert_tensor_parallelism ................ False
+  enable_zbh1_exact_semantics ..................... False
+  enable_zbh1_pipeline ............................ False
+  encoder_num_layers .............................. 24
+  encoder_seq_length .............................. 2048
+  end_weight_decay ................................ 0.1
+  eod_mask_loss ................................... False
+  eval_interval ................................... 100
+  eval_iters ...................................... 10
+  evidence_data_path .............................. None
+  exit_duration_in_mins ........................... 30000000
+  exit_interval ................................... None
+  exit_on_missing_checkpoint ...................... False
+  exit_signal_handler ............................. False
+  expert_interval ................................. 2
+  ffn_hidden_size ................................. 4096
+  finetune ........................................ False
+  force_ds_sequence_parallel ...................... False
+  fp16 ............................................ True
+  fp16_lm_cross_entropy ........................... False
+  fp32_residual_connection ........................ False
+  fp8_amax_compute_algo ........................... most_recent
+  fp8_amax_history_len ............................ 1
+  fp8_e4m3 ........................................ False
+  fp8_hybrid ...................................... False
+  fp8_interval .................................... 1
+  fp8_margin ...................................... 0
+  fp8_wgrad ....................................... True
+  global_batch_size ............................... 256
+  gradient_accumulation_fusion .................... True
+  head_lr_mult .................................... 1.0
+  hidden_dropout .................................. 0.1
+  hidden_size ..................................... 1024
+  hidden_size_teacher ............................. None
+  hysteresis ...................................... 2
+  ict_head_size ................................... None
+  ict_load ........................................ None
+  img_h ........................................... 224
+  img_w ........................................... 224
+  indexer_batch_size .............................. 128
+  indexer_log_interval ............................ 1000
+  inference ....................................... False
+  inference_batch_times_seqlen_threshold .......... 512
+  init_method_std ................................. 0.014
+  init_method_xavier_uniform ...................... False
+  initial_loss_scale .............................. 4294967296
+  iter_per_epoch .................................. 1250
+  kd .............................................. False
+  kd_alpha_ce ..................................... 1
+  kd_beta_ce ...................................... 1
+  kd_temp ......................................... 1.0
+  kill_switch_file ................................ None
+  kv_channels ..................................... 64
+  layernorm_epsilon ............................... 1e-05
+  lazy_mpu_init ................................... None
+  load ............................................ /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1
+  load_tag ........................................ None
+  load_teacher .................................... None
+  local_rank ...................................... 0
+  log_batch_size_to_tensorboard ................... True
+  log_interval .................................... 1
+  log_learning_rate_to_tensorboard ................ True
+  log_loss_scale_to_tensorboard ................... True
+  log_memory_to_tensorboard ....................... False
+  log_num_zeros_in_grad ........................... False
+  log_optimizer_states_to_tensorboard ............. False
+  log_params_norm ................................. False
+  log_timers_to_tensorboard ....................... True
+  log_validation_ppl_to_tensorboard ............... True
+  log_world_size_to_tensorboard ................... False
+  loss_scale ...................................... None
+  loss_scale_window ............................... 1000
+  lr .............................................. 0.0003
+  lr_decay_iters .................................. None
+  lr_decay_samples ................................ None
+  lr_decay_style .................................. cosine
+  lr_decay_tokens ................................. 260000000000
+  lr_warmup_fraction .............................. None
+  lr_warmup_iters ................................. 0
+  lr_warmup_samples ............................... 0
+  lr_warmup_tokens ................................ 375000000
+  make_vocab_size_divisible_by .................... 128
+  mask_factor ..................................... 1.0
+  mask_prob ....................................... 0.15
+  mask_type ....................................... random
+  masked_softmax_fusion ........................... True
+  max_position_embeddings ......................... 2048
+  max_tokens_to_oom ............................... 12000
+  mem_efficient_ln ................................ True
+  memory_centric_tiled_linear ..................... False
+  merge_file ...................................... /data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-merges.txt
+  micro_batch_size ................................ 2
+  min_loss_scale .................................. 1.0
+  min_lr .......................................... 3e-05
+  mlp_type ........................................ standard
+  mmap_warmup ..................................... False
+  moe_eval_capacity_factor ........................ 1.0
+  moe_expert_parallel_size ........................ 1
+  moe_loss_coeff .................................. 0.01
+  moe_min_capacity ................................ 4
+  moe_token_dropping .............................. True
+  moe_top2_2nd_expert_sampling .................... True
+  moe_train_capacity_factor ....................... 1.0
+  mos ............................................. False
+  no_load_lr_state ................................ False
+  no_load_optim ................................... None
+  no_load_rng ..................................... None
+  no_persist_layer_norm ........................... False
+  no_pipeline_parallel ............................ True
+  no_save_optim ................................... None
+  no_save_rng ..................................... None
+  normalization ................................... layernorm
+  num_attention_heads ............................. 16
+  num_attention_heads_teacher ..................... None
+  num_channels .................................... 3
+  num_classes ..................................... 1000
+  num_experts ..................................... [1]
+  num_experts_switch .............................. None
+  num_experts_teacher ............................. [1]
+  num_key_value_heads ............................. 16
+  num_layers ...................................... 24
+  num_layers_per_virtual_pipeline_stage ........... None
+  num_layers_teacher .............................. None
+  num_workers ..................................... 0
+  onnx_safe ....................................... None
+  openai_gelu ..................................... False
+  optimizer ....................................... adam
+  output_bert_embeddings .......................... False
+  overlap_p2p_comm ................................ False
+  override_opt_param_scheduler .................... True
+  params_dtype .................................... torch.float16
+  partition_activations ........................... False
+  patch_dim ....................................... 16
+  perform_initialization .......................... True
+  pipeline_model_parallel_size .................... 1
+  pipeline_model_parallel_split_rank .............. None
+  profile ......................................... None
+  profile_backward ................................ False
+  profile_ranks ................................... None
+  profile_steps ................................... 2,3
+  query_in_block_prob ............................. 0.1
+  rampup_batch_size ............................... ['32', '32', '1953125']
+  random_ltd ...................................... False
+  rank ............................................ 0
+  recompute_granularity ........................... None
+  recompute_method ................................ None
+  recompute_num_layers ............................ 1
+  remote_device ................................... none
+  repeated_dataloader ............................. False
+  reset_attention_mask ............................ False
+  reset_iteration ................................. False
+  reset_position_ids .............................. False
+  retriever_report_topk_accuracies ................ []
+  retriever_score_scaling ......................... False
+  retriever_seq_length ............................ 256
+  retro_add_retriever ............................. False
+  retro_cyclic_train_iters ........................ None
+  retro_encoder_attention_dropout ................. 0.1
+  retro_encoder_hidden_dropout .................... 0.1
+  retro_encoder_layers ............................ 2
+  retro_num_neighbors ............................. 2
+  retro_num_retrieved_chunks ...................... 2
+  retro_return_doc_ids ............................ False
+  retro_workdir ................................... None
+  return_data_index ............................... False
+  rope_theta ...................................... 10000
+  rotary_percent .................................. 1.0
+  sample_rate ..................................... 1.0
+  save ............................................ /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1
+  save_interval ................................... 1000
+  scatter_gather_tensors_in_pipeline .............. True
+  scattered_embeddings ............................ False
+  seed ............................................ 1234
+  seq_length ...................................... 2048
+  sequence_parallel ............................... False
+  sgd_momentum .................................... 0.9
+  short_seq_prob .................................. 0.1
+  skip_train ...................................... False
+  split ........................................... 98,2,0
+  split_transformers .............................. False
+  squared_relu .................................... False
+  standalone_embedding_stage ...................... False
+  start_weight_decay .............................. 0.1
+  swiglu .......................................... False
+  swin_backbone_type .............................. tiny
+  synchronize_each_layer .......................... False
+  tensor_model_parallel_size ...................... 2
+  tensorboard_dir ................................. /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/tensorboard/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1_jo-c76qi7jstfxxctvg-worker-0_2024.11.28-20.03.22
+  tensorboard_log_interval ........................ 1
+  tensorboard_queue_size .......................... 1
+  test_data_path .................................. None
+  tile_factor ..................................... 1
+  timing_log_level ................................ 1
+  timing_log_option ............................... minmax
+  titles_data_path ................................ None
+  tokenizer_model ................................. None
+  tokenizer_type .................................. GPT2BPETokenizer
+  topk ............................................ 1
+  train_data_exact_num_epochs ..................... None
+  train_data_path ................................. None
+  train_desc_path ................................. None
+  train_doc_idx_path .............................. None
+  train_idx_path .................................. None
+  train_iters ..................................... None
+  train_sample_idx_path ........................... None
+  train_samples ................................... 439453125
+  train_shuffle_idx_path .......................... None
+  train_tokens .................................... 300000000000
+  transformer_impl ................................ local
+  transformer_pipeline_model_parallel_size ........ 1
+  trust_remote_code ............................... False
+  universal_checkpoint ............................ False
+  untie_embeddings_and_output_weights ............. False
+  use_checkpoint_args ............................. False
+  use_checkpoint_opt_param_scheduler .............. False
+  use_contiguous_buffers_in_local_ddp ............. True
+  use_cpu_initialization .......................... None
+  use_dataset_only ................................ False
+  use_distributed_optimizer ....................... False
+  use_flash_attn .................................. False
+  use_flash_attn_builder .......................... False
+  use_flash_attn_triton ........................... False
+  use_flash_attn_v1 ............................... False
+  use_flash_attn_v2 ............................... False
+  use_one_sent_docs ............................... False
+  use_pin_memory .................................. False
+  use_ring_exchange_p2p ........................... False
+  use_rotary_position_embeddings .................. False
+  use_tutel ....................................... False
+  valid_data_path ................................. None
+  variable_seq_lengths ............................ False
+  virtual_pipeline_model_parallel_size ............ None
+  vision_backbone_type ............................ vit
+  vision_pretraining .............................. False
+  vision_pretraining_type ......................... classify
+  vocab_extra_ids ................................. 0
+  vocab_file ...................................... /data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json
+  vocab_size ...................................... None
+  wandb_exp_name .................................. 
+  wandb_project ................................... 
+  wandb_save_dir .................................. 
+  weight_decay .................................... 0.1
+  weight_decay_incr_style ......................... constant
+  world_size ...................................... 2
+  zero_allgather_bucket_size ...................... 0.0
+  zero_contigious_gradients ....................... False
+  zero_reduce_bucket_size ......................... 0.0
+  zero_reduce_scatter ............................. False
+  zero_stage ...................................... 1.0
+-------------------- end of arguments ---------------------
+will use batch size rampup starting from global batch size 32 to global batch size 256 with batch size increments 32 over 1953125 samples.
+> building GPT2BPETokenizer tokenizer ...
+Traceback (most recent call last):
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py", line 356, in <module>
+    pretrain(train_valid_test_datasets_provider,
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/training.py", line 129, in pretrain
+    initialize_megatron(extra_args_provider=extra_args_provider,
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/initialize.py", line 63, in initialize_megatron
+    set_global_variables(args)
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/global_vars.py", line 99, in set_global_variables
+    _ = _build_tokenizer(args)
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/global_vars.py", line 133, in _build_tokenizer
+    _GLOBAL_TOKENIZER = build_tokenizer(args)
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/tokenizer/tokenizer.py", line 32, in build_tokenizer
+    tokenizer = _GPT2BPETokenizer(args.vocab_file, args.merge_file)
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/tokenizer/tokenizer.py", line 270, in __init__
+    self.tokenizer = GPT2Tokenizer(vocab_file, merge_file, errors='replace',
+  File "/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/megatron/tokenizer/gpt2_tokenization.py", line 159, in __init__
+    self.encoder = json.load(open(vocab_file))
+FileNotFoundError: [Errno 2] No such file or directory: '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json'
+[2024-11-28 20:03:42,878] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 2801
+[2024-11-28 20:03:42,881] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 2802
+[2024-11-28 20:03:42,881] [ERROR] [launch.py:325:sigkill_handler] ['/usr/bin/python', '-u', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py', '--local_rank=1', '--override-opt_param-scheduler', '--adam-beta1', '0.9', '--adam-beta2', '0.95', '--tensor-model-parallel-size', '2', '--moe-expert-parallel-size', '1', '--num-experts', '1', '--moe-loss-coeff', '0.01', '--moe-train-capacity-factor', '1.0', '--moe-eval-capacity-factor', '1.0', '--moe-min-capacity', '4', '--init-method-std', '0.014', '--lr-decay-tokens', '260000000000', '--lr-warmup-tokens', '375000000', '--micro-batch-size', '2', '--exit-duration-in-mins', '30000000', '--rampup-batch-size', '32', '32', '1953125', '--global-batch-size', '256', '--num-layers', '24', '--hidden-size', '1024', '--num-attention-heads', '16', '--seq-length', '2048', '--max-position-embeddings', '2048', '--train-tokens', '300000000000', '--train-samples', '439453125', '--lr', '3.0e-4', '--min-lr', '3.0e-5', '--lr-decay-style', 'cosine', '--split', '98,2,0', '--log-interval', '1', '--eval-interval', '100', '--eval-iters', '10', '--save-interval', '1000', '--weight-decay', '0.1', '--clip-grad', '1.0', '--hysteresis', '2', '--num-workers', '0', '--fp16', '--load', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1', '--save', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/checkpoint/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1', '--tensorboard-queue-size', '1', '--log-timers-to-tensorboard', '--timing-log-level', '1', '--no-pipeline-parallel', '--cpu-optimizer', '--log-batch-size-to-tensorboard', '--log-validation-ppl-to-tensorboard', '--tensorboard-dir', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/output/tensorboard/gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1_jo-c76qi7jstfxxctvg-worker-0_2024.11.28-20.03.22', '--checkpoint-activations', '--vocab-file', '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-vocab.json', '--merge-file', '/data/users/guanhua/Megatron-DeepSpeed/dataset/gpt2-merges.txt', '--data-path', '/data/users/guanhua/Megatron-DeepSpeed/dataset/BookCorpusDataset_text_document', '--data-impl', 'mmap', '--deepspeed', '--deepspeed_config', 'ds_config_gpt_gpt-0.35B-lr-3.0e-4-minlr-3.0e-5-bs-256-gpus-16-mp-2-pp-1.json', '--pipeline-model-parallel-size', '1', '--deepspeed-activation-checkpointing'] exits with return code = 1

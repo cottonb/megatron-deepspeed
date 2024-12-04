@@ -1,0 +1,642 @@
+[2024-11-28 19:45:23,269] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:23,718] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:26,994] [WARNING] [runner.py:215:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2024-11-28 19:45:26,994] [INFO] [runner.py:607:main] cmd = /usr/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMV19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None /mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py --nproc_per_node 2 --nnodes 2 --node_rank 0 --master_addr jo-c76qi7jstfxxctvg-worker-0 --master_port 9200 --tensor-model-parallel-size 2 --pipeline-model-parallel-size 1 --sequence-parallel --num-layers 32 --hidden-size 4096 --num-attention-heads 32 --ffn-hidden-size 11008 --seq-length 4096 --max-position-embeddings 4096 --position-embedding-type rope --micro-batch-size 1 --global-batch-size 16 --vocab-size 55295 --make-vocab-size-divisible-by 2 --lr 1e-5 --lr-decay-iters 5 --lr-decay-style cosine --lr-warmup-fraction 0.003 --min-lr 1.5e-6 --norm-epsilon 1e-5 --weight-decay 1e-2 --swiglu --no-masked-softmax-fusion --no-bias-gelu-fusion --no-bias-dropout-fusion --untie-embeddings-and-output-weights --disable-bias-linear --clip-grad 1.0 --bf16 --recompute-granularity full --recompute-method uniform --recompute-num-layers 2 --no-check-for-nan-in-loss-and-grad --data-path /mnt/huangyonghua/huangyonghua/long-inst-4k --train-iters 5 --tokenizer-type Llama2Tokenizer --tokenizer-model /mnt/huangyonghua/huangyonghua/model/tokenizer.model --dataloader-type cyclic --num-workers 8 --split 1000,0,0 --log-interval 1 --save-interval 1 --eval-interval 1000 --eval-iters 0 --seed 42 --distributed-backend nccl --tensorboard-dir /mnt/huangyonghua/huangyonghua/Megatron-LM/tensorboard/llama_exp/1.3b_int8_i1000/no_quant --use-flash-attn --use-distributed-optimizer --empty-unused-memory-level 2 --tensorboard-log-interval 1 --tensorboard-queue-size 5 --log-timers-to-tensorboard --log-memory-to-tensorboard
+[2024-11-28 19:45:29,533] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:29,978] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:33,018] [INFO] [launch.py:139:main] 0 NCCL_VERSION=2.19.3
+[2024-11-28 19:45:33,018] [INFO] [launch.py:139:main] 0 NCCL_IB_HCA=mlx5_2
+[2024-11-28 19:45:33,018] [INFO] [launch.py:146:main] WORLD INFO DICT: {'localhost': [0, 1]}
+[2024-11-28 19:45:33,018] [INFO] [launch.py:152:main] nnodes=1, num_local_procs=2, node_rank=0
+[2024-11-28 19:45:33,018] [INFO] [launch.py:163:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1]})
+[2024-11-28 19:45:33,018] [INFO] [launch.py:164:main] dist_world_size=2
+[2024-11-28 19:45:33,018] [INFO] [launch.py:168:main] Setting CUDA_VISIBLE_DEVICES=0,1
+[2024-11-28 19:45:33,019] [INFO] [launch.py:256:main] process 1195 spawned with command: ['/usr/bin/python', '-u', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py', '--local_rank=0', '--nproc_per_node', '2', '--nnodes', '2', '--node_rank', '0', '--master_addr', 'jo-c76qi7jstfxxctvg-worker-0', '--master_port', '9200', '--tensor-model-parallel-size', '2', '--pipeline-model-parallel-size', '1', '--sequence-parallel', '--num-layers', '32', '--hidden-size', '4096', '--num-attention-heads', '32', '--ffn-hidden-size', '11008', '--seq-length', '4096', '--max-position-embeddings', '4096', '--position-embedding-type', 'rope', '--micro-batch-size', '1', '--global-batch-size', '16', '--vocab-size', '55295', '--make-vocab-size-divisible-by', '2', '--lr', '1e-5', '--lr-decay-iters', '5', '--lr-decay-style', 'cosine', '--lr-warmup-fraction', '0.003', '--min-lr', '1.5e-6', '--norm-epsilon', '1e-5', '--weight-decay', '1e-2', '--swiglu', '--no-masked-softmax-fusion', '--no-bias-gelu-fusion', '--no-bias-dropout-fusion', '--untie-embeddings-and-output-weights', '--disable-bias-linear', '--clip-grad', '1.0', '--bf16', '--recompute-granularity', 'full', '--recompute-method', 'uniform', '--recompute-num-layers', '2', '--no-check-for-nan-in-loss-and-grad', '--data-path', '/mnt/huangyonghua/huangyonghua/long-inst-4k', '--train-iters', '5', '--tokenizer-type', 'Llama2Tokenizer', '--tokenizer-model', '/mnt/huangyonghua/huangyonghua/model/tokenizer.model', '--dataloader-type', 'cyclic', '--num-workers', '8', '--split', '1000,0,0', '--log-interval', '1', '--save-interval', '1', '--eval-interval', '1000', '--eval-iters', '0', '--seed', '42', '--distributed-backend', 'nccl', '--tensorboard-dir', '/mnt/huangyonghua/huangyonghua/Megatron-LM/tensorboard/llama_exp/1.3b_int8_i1000/no_quant', '--use-flash-attn', '--use-distributed-optimizer', '--empty-unused-memory-level', '2', '--tensorboard-log-interval', '1', '--tensorboard-queue-size', '5', '--log-timers-to-tensorboard', '--log-memory-to-tensorboard']
+[2024-11-28 19:45:33,020] [INFO] [launch.py:256:main] process 1196 spawned with command: ['/usr/bin/python', '-u', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py', '--local_rank=1', '--nproc_per_node', '2', '--nnodes', '2', '--node_rank', '0', '--master_addr', 'jo-c76qi7jstfxxctvg-worker-0', '--master_port', '9200', '--tensor-model-parallel-size', '2', '--pipeline-model-parallel-size', '1', '--sequence-parallel', '--num-layers', '32', '--hidden-size', '4096', '--num-attention-heads', '32', '--ffn-hidden-size', '11008', '--seq-length', '4096', '--max-position-embeddings', '4096', '--position-embedding-type', 'rope', '--micro-batch-size', '1', '--global-batch-size', '16', '--vocab-size', '55295', '--make-vocab-size-divisible-by', '2', '--lr', '1e-5', '--lr-decay-iters', '5', '--lr-decay-style', 'cosine', '--lr-warmup-fraction', '0.003', '--min-lr', '1.5e-6', '--norm-epsilon', '1e-5', '--weight-decay', '1e-2', '--swiglu', '--no-masked-softmax-fusion', '--no-bias-gelu-fusion', '--no-bias-dropout-fusion', '--untie-embeddings-and-output-weights', '--disable-bias-linear', '--clip-grad', '1.0', '--bf16', '--recompute-granularity', 'full', '--recompute-method', 'uniform', '--recompute-num-layers', '2', '--no-check-for-nan-in-loss-and-grad', '--data-path', '/mnt/huangyonghua/huangyonghua/long-inst-4k', '--train-iters', '5', '--tokenizer-type', 'Llama2Tokenizer', '--tokenizer-model', '/mnt/huangyonghua/huangyonghua/model/tokenizer.model', '--dataloader-type', 'cyclic', '--num-workers', '8', '--split', '1000,0,0', '--log-interval', '1', '--save-interval', '1', '--eval-interval', '1000', '--eval-iters', '0', '--seed', '42', '--distributed-backend', 'nccl', '--tensorboard-dir', '/mnt/huangyonghua/huangyonghua/Megatron-LM/tensorboard/llama_exp/1.3b_int8_i1000/no_quant', '--use-flash-attn', '--use-distributed-optimizer', '--empty-unused-memory-level', '2', '--tensorboard-log-interval', '1', '--tensorboard-queue-size', '5', '--log-timers-to-tensorboard', '--log-memory-to-tensorboard']
+[2024-11-28 19:45:35,600] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:35,765] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:36,034] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-11-28 19:45:36,074] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+--------------------------------------------------
+DeepSpeed C++/CUDA extension op report
+--------------------------------------------------
+NOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.
+--------------------------------------------------
+JIT compiled ops requires ninja
+--------------------------------------------------
+DeepSpeed C++/CUDA extension op report
+--------------------------------------------------
+NOTE: Ops not installed will be just-in-time (JIT) compiled at
+      runtime if needed. Op compatibility means that your system
+      meet the required dependencies to JIT install the op.
+--------------------------------------------------
+JIT compiled ops requires ninja
+ninja .................. [92m[OKAY][0m
+--------------------------------------------------
+op name ................ installed .. compatible
+--------------------------------------------------
+ninja .................. [92m[OKAY][0m
+--------------------------------------------------
+op name ................ installed .. compatible
+--------------------------------------------------
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+evoformer_attn ......... [93m[NO][0m ....... [93m[NO][0m
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+async_io ............... [93m[NO][0m ....... [93m[NO][0m
+fused_adam ............. [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adam ............... [93m[NO][0m ....... [92m[OKAY][0m
+cpu_adagrad ............ [93m[NO][0m ....... [92m[OKAY][0m
+cpu_lion ............... [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+evoformer_attn ......... [93m[NO][0m ....... [93m[NO][0m
+[93m [WARNING] [0m FP Quantizer is using an untested triton version (2.1.0), only 2.3.(0, 1) and 3.0.0 are known to be compatible with these kernels
+fp_quantizer ........... [93m[NO][0m ....... [93m[NO][0m
+fused_lamb ............. [93m[NO][0m ....... [92m[OKAY][0m
+fused_lion[93m [WARNING] [0m FP Quantizer is using an untested triton version (2.1.0), only 2.3.(0, 1) and 3.0.0 are known to be compatible with these kernels 
+............. fp_quantizer[93m[NO][0m ...........  [93m[NO][0m ..............  [93m[NO][0m
+[92m[OKAY][0m
+fused_lamb ............. [93m[NO][0m ....... [92m[OKAY][0m
+fused_lion ............. [93m[NO][0m ....... [92m[OKAY][0m
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmphss84kbl/test.c -o /tmp/tmphss84kbl/test.o
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmp7wo3dvbd/test.c -o /tmp/tmp7wo3dvbd/test.o
+x86_64-linux-gnu-gcc /tmp/tmphss84kbl/test.o -L/usr/local/cuda -L/usr/local/cuda/lib64 -lcufile -o /tmp/tmphss84kbl/a.out
+x86_64-linux-gnu-gcc /tmp/tmp7wo3dvbd/test.o -L/usr/local/cuda -L/usr/local/cuda/lib64 -lcufile -o /tmp/tmp7wo3dvbd/a.out
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmph876xdr2/test.c -o /tmp/tmph876xdr2/test.o
+x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC -c /tmp/tmpaxg5pbgx/test.c -o /tmp/tmpaxg5pbgx/test.o
+x86_64-linux-gnu-gcc /tmp/tmph876xdr2/test.o -laio -o /tmp/tmph876xdr2/a.out
+x86_64-linux-gnu-gcc /tmp/tmpaxg5pbgx/test.o -laio -o /tmp/tmpaxg5pbgx/a.out
+[93m [WARNING] [0m gds requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m gds requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m gds: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+[93m [WARNING] [0m gds: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+gds .................... [93m[NO][0m ....... [93m[NO][0m
+transformer_inference .. [93m[NO][0m ....... [92m[OKAY][0m
+transformer_inference .. [93m[NO][0m ....... [92m[OKAY][0m
+inference_core_ops ..... [93m[NO][0m ....... [92m[OKAY][0m
+inference_core_ops ..... [93m[NO][0m ....... [92m[OKAY][0m
+cutlass_ops ............ [93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+cutlass_ops ............ [93m[NO][0m ....... [92m[OKAY][0m
+quantizer .............. [93m[NO][0m ....... [92m[OKAY][0m
+ragged_device_ops ...... [93m[NO][0m ....... [92m[OKAY][0m
+ragged_device_ops ...... [93m[NO][0m ....... [92m[OKAY][0m
+ragged_ops ............. [93m[NO][0m ....... [92m[OKAY][0m
+random_ltd ............. [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.2
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+sparse_attn ............ [93m[NO][0m ....... [93m[NO][0m
+ragged_ops ............. [93m[NO][0m ....... [92m[OKAY][0m
+random_ltd ............. [93m[NO][0m ....... [92m[OKAY][0m
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.2
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+sparse_attn ............ [93m[NO][0m ....... [93m[NO][0m
+spatial_inference ...... [93m[NO][0m ....... [92m[OKAY][0m
+transformer ............ [93m[NO][0m ....... [92m[OKAY][0m
+stochastic_transformer . [93m[NO][0m ....... [92m[OKAY][0m
+--------------------------------------------------
+spatial_inference ...... [93m[NO][0m ....... [92m[OKAY][0m
+transformer ............ [93m[NO][0m ....... [92m[OKAY][0m
+stochastic_transformer . [93m[NO][0m ....... [92m[OKAY][0m
+--------------------------------------------------
+DeepSpeed general environment info:
+torch install path ............... ['/usr/local/lib/python3.10/dist-packages/torch']
+torch version .................... 2.2.0a0+6a974be
+deepspeed install path ........... ['/mnt/huangyonghua/huangyonghua/DeepSpeed/deepspeed']
+deepspeed info ................... 0.0.0, [none], [none]
+torch cuda version ............... 12.3
+torch hip version ................ None
+nvcc version ..................... 12.3
+deepspeed wheel compiled w. ...... torch 0.0, cuda 0.0
+shared memory (/dev/shm) size .... 112.00 GB
+DeepSpeed general environment info:
+torch install path ............... ['/usr/local/lib/python3.10/dist-packages/torch']
+torch version .................... 2.2.0a0+6a974be
+deepspeed install path ........... ['/mnt/huangyonghua/huangyonghua/DeepSpeed/deepspeed']
+deepspeed info ................... 0.0.0, [none], [none]
+torch cuda version ............... 12.3
+torch hip version ................ None
+nvcc version ..................... 12.3
+deepspeed wheel compiled w. ...... torch 0.0, cuda 0.0
+shared memory (/dev/shm) size .... 112.00 GB
+**** Git info for Megatron: git_hash=6acc370 git_branch=main ****
+**** Git info for Megatron: git_hash=6acc370 git_branch=main ****
+usage: pretrain_gpt.py [-h] [--num-layers NUM_LAYERS]
+                       [--encoder-num-layers ENCODER_NUM_LAYERS]
+                       [--decoder-num-layers DECODER_NUM_LAYERS]
+                       [--num-experts NUM_EXPERTS [NUM_EXPERTS ...]]
+                       [--mlp-type MLP_TYPE] [--topk TOPK]
+                       [--expert-interval EXPERT_INTERVAL]
+                       [--hidden-size HIDDEN_SIZE]
+                       [--ffn-hidden-size FFN_HIDDEN_SIZE]
+                       [--num-attention-heads NUM_ATTENTION_HEADS]
+                       [--num-key-value-heads NUM_KEY_VALUE_HEADS]
+                       [--kv-channels KV_CHANNELS]
+                       [--max-position-embeddings MAX_POSITION_EMBEDDINGS]
+                       [--use-rotary-position-embeddings]
+                       [--rotary-position-embeddings-theta ROPE_THETA]
+                       [--rotary-percent ROTARY_PERCENT]
+                       [--no-position-embedding]
+                       [--make-vocab-size-divisible-by MAKE_VOCAB_SIZE_DIVISIBLE_BY]
+                       [--normalization {layernorm,rmsnorm}]
+                       [--layernorm-epsilon LAYERNORM_EPSILON]
+                       [--apply-layernorm-1p] [--disable-mem-efficient-ln]
+                       [--apply-residual-connection-post-layernorm]
+                       [--openai-gelu] [--squared-relu] [--swiglu]
+                       [--onnx-safe ONNX_SAFE] [--bert-no-binary-head]
+                       [--num-experts-switch NUM_EXPERTS_SWITCH]
+                       [--untie-embeddings-and-output-weights]
+                       [--embedding-weights-in-fp32]
+                       [--kill-switch-file KILL_SWITCH_FILE]
+                       [--attention-dropout ATTENTION_DROPOUT]
+                       [--hidden-dropout HIDDEN_DROPOUT]
+                       [--weight-decay WEIGHT_DECAY]
+                       [--start-weight-decay START_WEIGHT_DECAY]
+                       [--end-weight-decay END_WEIGHT_DECAY]
+                       [--weight-decay-incr-style {constant,linear,cosine}]
+                       [--clip-grad CLIP_GRAD] [--adam-beta1 ADAM_BETA1]
+                       [--adam-beta2 ADAM_BETA2] [--adam-eps ADAM_EPS]
+                       [--sgd-momentum SGD_MOMENTUM]
+                       [--micro-batch-size MICRO_BATCH_SIZE]
+                       [--batch-size BATCH_SIZE]
+                       [--global-batch-size GLOBAL_BATCH_SIZE]
+                       [--rampup-batch-size [RAMPUP_BATCH_SIZE ...]]
+                       [--recompute-activations]
+                       [--recompute-granularity {full,selective}]
+                       [--distribute-saved-activations]
+                       [--recompute-method {uniform,block}]
+                       [--recompute-num-layers RECOMPUTE_NUM_LAYERS]
+                       [--enable-zbh1-pipeline]
+                       [--enable-zbh1-exact-semantics]
+                       [--checkpoint-activations]
+                       [--distribute-checkpointed-activations]
+                       [--checkpoint-num-layers CHECKPOINT_NUM_LAYERS]
+                       [--train-iters TRAIN_ITERS]
+                       [--train-samples TRAIN_SAMPLES]
+                       [--train-tokens TRAIN_TOKENS] [--random-ltd]
+                       [--log-interval LOG_INTERVAL]
+                       [--exit-interval EXIT_INTERVAL]
+                       [--exit-duration-in-mins EXIT_DURATION_IN_MINS]
+                       [--exit-signal-handler]
+                       [--tensorboard-dir TENSORBOARD_DIR]
+                       [--no-masked-softmax-fusion] [--no-bias-gelu-fusion]
+                       [--no-bias-dropout-fusion]
+                       [--disable-moe-token-dropping]
+                       [--moe-train-capacity-factor MOE_TRAIN_CAPACITY_FACTOR]
+                       [--moe-eval-capacity-factor MOE_EVAL_CAPACITY_FACTOR]
+                       [--moe-min-capacity MOE_MIN_CAPACITY]
+                       [--moe-loss-coeff MOE_LOSS_COEFF]
+                       [--create-moe-param-group]
+                       [--disable-moe-top2-2nd-expert-sampling]
+                       [--use-flash-attn] [--use-flash-attn-v2]
+                       [--use-flash-attn-triton] [--use-flash-attn-builder]
+                       [--disable-bias-linear] [--optimizer {adam,sgd}]
+                       [--dataloader-type {single,cyclic}] [--ds-inference]
+                       [--cpu-optimizer] [--cpu_torch_adam] [--ds_fused_adam]
+                       [--no-pipeline-parallel] [--use-tutel] [--inference]
+                       [--no-async-tensor-model-parallel-allreduce]
+                       [--no-persist-layer-norm] [--sequence-parallel]
+                       [--ds-sequence-parallel-size DS_SEQUENCE_PARALLEL_SIZE]
+                       [--force-ds-sequence-parallel]
+                       [--no-gradient-accumulation-fusion]
+                       [--use-dataset-only USE_DATASET_ONLY] [--seed SEED]
+                       [--data-parallel-random-init]
+                       [--init-method-std INIT_METHOD_STD]
+                       [--init-method-xavier-uniform] [--lr LR]
+                       [--lr-decay-style {constant,linear,cosine,inverse-square-root}]
+                       [--lr-decay-iters LR_DECAY_ITERS]
+                       [--lr-decay-samples LR_DECAY_SAMPLES]
+                       [--lr-decay-tokens LR_DECAY_TOKENS]
+                       [--lr-warmup-fraction LR_WARMUP_FRACTION]
+                       [--lr-warmup-iters LR_WARMUP_ITERS]
+                       [--lr-warmup-samples LR_WARMUP_SAMPLES]
+                       [--lr-warmup-tokens LR_WARMUP_TOKENS] [--warmup WARMUP]
+                       [--min-lr MIN_LR] [--override-opt_param-scheduler]
+                       [--use-checkpoint-opt_param-scheduler] [--save SAVE]
+                       [--save-interval SAVE_INTERVAL] [--no-save-optim]
+                       [--no-save-rng] [--load LOAD] [--load-tag LOAD_TAG]
+                       [--no-load-optim] [--no-load-rng] [--no-load-lr-state]
+                       [--finetune] [--no-initialization]
+                       [--use-checkpoint-args] [--exit-on-missing-checkpoint]
+                       [--universal-checkpoint] [--fp16] [--bf16]
+                       [--loss-scale LOSS_SCALE]
+                       [--initial-loss-scale INITIAL_LOSS_SCALE]
+                       [--min-loss-scale MIN_LOSS_SCALE]
+                       [--loss-scale-window LOSS_SCALE_WINDOW]
+                       [--hysteresis HYSTERESIS] [--fp32-residual-connection]
+                       [--no-query-key-layer-scaling]
+                       [--attention-softmax-in-fp32]
+                       [--accumulate-allreduce-grads-in-fp32]
+                       [--fp16-lm-cross-entropy]
+                       [--tensor-model-parallel-size TENSOR_MODEL_PARALLEL_SIZE]
+                       [--enable-expert-tensor-parallelism]
+                       [--pipeline-model-parallel-size PIPELINE_MODEL_PARALLEL_SIZE]
+                       [--pipeline-model-parallel-split-rank PIPELINE_MODEL_PARALLEL_SPLIT_RANK]
+                       [--moe-expert-parallel-size MOE_EXPERT_PARALLEL_SIZE]
+                       [--model-parallel-size MODEL_PARALLEL_SIZE]
+                       [--num-layers-per-virtual-pipeline-stage NUM_LAYERS_PER_VIRTUAL_PIPELINE_STAGE]
+                       [--overlap-p2p-communication]
+                       [--distributed-backend {nccl,gloo,ccl,hccl}]
+                       [--distributed-timeout-minutes DISTRIBUTED_TIMEOUT_MINUTES]
+                       [--DDP-impl {local,torch,FSDP}]
+                       [--no-contiguous-buffers-in-local-ddp]
+                       [--no-scatter-gather-tensors-in-pipeline]
+                       [--use-ring-exchange-p2p] [--local-rank LOCAL_RANK]
+                       [--lazy-mpu-init LAZY_MPU_INIT]
+                       [--use-cpu-initialization]
+                       [--empty-unused-memory-level {0,1,2}]
+                       [--standalone-embedding-stage]
+                       [--use-distributed-optimizer] [--eval-iters EVAL_ITERS]
+                       [--eval-interval EVAL_INTERVAL] [--skip-train]
+                       [--aml-data-download-path AML_DATA_DOWNLOAD_PATH]
+                       [--data-path [DATA_PATH ...]] [--split SPLIT]
+                       [--train-data-path [TRAIN_DATA_PATH ...]]
+                       [--valid-data-path [VALID_DATA_PATH ...]]
+                       [--test-data-path [TEST_DATA_PATH ...]]
+                       [--data-cache-path DATA_CACHE_PATH]
+                       [--vocab-size VOCAB_SIZE] [--vocab-file VOCAB_FILE]
+                       [--merge-file MERGE_FILE]
+                       [--vocab-extra-ids VOCAB_EXTRA_IDS]
+                       [--seq-length SEQ_LENGTH]
+                       [--encoder-seq-length ENCODER_SEQ_LENGTH]
+                       [--decoder-seq-length DECODER_SEQ_LENGTH]
+                       [--retriever-seq-length RETRIEVER_SEQ_LENGTH]
+                       [--sample-rate SAMPLE_RATE] [--mask-prob MASK_PROB]
+                       [--short-seq-prob SHORT_SEQ_PROB] [--mmap-warmup]
+                       [--num-workers NUM_WORKERS]
+                       [--tokenizer-type {BertWordPieceLowerCase,BertWordPieceCase,GPT2BPETokenizer,SentencePieceTokenizer,GPTSentencePieceTokenizer,HFTokenizer,NullTokenizer}]
+                       [--tokenizer-model TOKENIZER_MODEL]
+                       [--trust-remote-code] [--data-impl {mmap,infer}]
+                       [--reset-position-ids] [--reset-attention-mask]
+                       [--eod-mask-loss]
+                       [--train-data-exact-num-epochs TRAIN_DATA_EXACT_NUM_EPOCHS]
+                       [--return-data-index]
+                       [--data-efficiency-curriculum-learning]
+                       [--train-idx-path TRAIN_IDX_PATH]
+                       [--train-desc-path TRAIN_DESC_PATH]
+                       [--train-doc-idx-path TRAIN_DOC_IDX_PATH]
+                       [--train-sample-idx-path TRAIN_SAMPLE_IDX_PATH]
+                       [--train-shuffle-idx-path TRAIN_SHUFFLE_IDX_PATH]
+                       [--repeated-dataloader] [--adlr-autoresume]
+                       [--adlr-autoresume-interval ADLR_AUTORESUME_INTERVAL]
+                       [--ict-head-size ICT_HEAD_SIZE]
+                       [--biencoder-projection-dim BIENCODER_PROJECTION_DIM]
+                       [--biencoder-shared-query-context-model]
+                       [--ict-load ICT_LOAD] [--bert-load BERT_LOAD]
+                       [--titles-data-path TITLES_DATA_PATH]
+                       [--query-in-block-prob QUERY_IN_BLOCK_PROB]
+                       [--use-one-sent-docs]
+                       [--evidence-data-path EVIDENCE_DATA_PATH]
+                       [--retriever-report-topk-accuracies RETRIEVER_REPORT_TOPK_ACCURACIES [RETRIEVER_REPORT_TOPK_ACCURACIES ...]]
+                       [--retriever-score-scaling]
+                       [--block-data-path BLOCK_DATA_PATH]
+                       [--embedding-path EMBEDDING_PATH]
+                       [--indexer-batch-size INDEXER_BATCH_SIZE]
+                       [--indexer-log-interval INDEXER_LOG_INTERVAL]
+                       [--num-classes NUM_CLASSES] [--img-h IMG_H]
+                       [--img-w IMG_W] [--num-channels NUM_CHANNELS]
+                       [--patch-dim PATCH_DIM]
+                       [--classes-fraction CLASSES_FRACTION]
+                       [--data-per-class-fraction DATA_PER_CLASS_FRACTION]
+                       [--no-data-sharding] [--head-lr-mult HEAD_LR_MULT]
+                       [--vision-pretraining]
+                       [--vision-pretraining-type {classify,inpaint,dino}]
+                       [--vision-backbone-type {vit,mit,swin}]
+                       [--swin-backbone-type {tiny,base,h3}]
+                       [--mask-type {random,row}] [--mask-factor MASK_FACTOR]
+                       [--iter-per-epoch ITER_PER_EPOCH]
+                       [--dino-local-img-size DINO_LOCAL_IMG_SIZE]
+                       [--dino-local-crops-number DINO_LOCAL_CROPS_NUMBER]
+                       [--dino-head-hidden-size DINO_HEAD_HIDDEN_SIZE]
+                       [--dino-bottleneck-size DINO_BOTTLENECK_SIZE]
+                       [--dino-freeze-last-layer DINO_FREEZE_LAST_LAYER]
+                       [--dino-norm-last-layer]
+                       [--dino-warmup-teacher-temp DINO_WARMUP_TEACHER_TEMP]
+                       [--dino-teacher-temp DINO_TEACHER_TEMP]
+                       [--dino-warmup-teacher-temp-epochs DINO_WARMUP_TEACHER_TEMP_EPOCHS]
+                       [--log-params-norm] [--log-num-zeros-in-grad]
+                       [--timing-log-level {0,1,2}]
+                       [--no-barrier-with-level-1-timing]
+                       [--timing-log-option {max,minmax,all}]
+                       [--tensorboard-log-interval TENSORBOARD_LOG_INTERVAL]
+                       [--tensorboard-queue-size TENSORBOARD_QUEUE_SIZE]
+                       [--log-timers-to-tensorboard]
+                       [--log-batch-size-to-tensorboard]
+                       [--no-log-learnig-rate-to-tensorboard]
+                       [--no-log-loss-scale-to-tensorboard]
+                       [--log-validation-ppl-to-tensorboard]
+                       [--log-optimizer-states-to-tensorboard]
+                       [--log-memory-to-tensorboard]
+                       [--log-world-size-to-tensorboard]
+                       [--wandb-project WANDB_PROJECT]
+                       [--wandb-exp-name WANDB_EXP_NAME]
+                       [--wandb-save-dir WANDB_SAVE_DIR]
+                       [--zero-stage ZERO_STAGE] [--zero-reduce-scatter]
+                       [--zero-contigious-gradients]
+                       [--zero-reduce-bucket-size ZERO_REDUCE_BUCKET_SIZE]
+                       [--zero-allgather-bucket-size ZERO_ALLGATHER_BUCKET_SIZE]
+                       [--remote-device {none,cpu,nvme}] [--use-pin-memory]
+                       [--scattered-embeddings] [--split-transformers]
+                       [--memory-centric-tiled-linear]
+                       [--tile-factor TILE_FACTOR]
+                       [--deepspeed-activation-checkpointing]
+                       [--partition-activations] [--contigious-checkpointing]
+                       [--checkpoint-in-cpu] [--synchronize-each-layer]
+                       [--profile-backward]
+                       [--num-layers-teacher NUM_LAYERS_TEACHER]
+                       [--num-experts-teacher NUM_EXPERTS_TEACHER [NUM_EXPERTS_TEACHER ...]]
+                       [--hidden-size-teacher HIDDEN_SIZE_TEACHER]
+                       [--num-attention-heads-teacher NUM_ATTENTION_HEADS_TEACHER]
+                       [--mos] [--kd] [--kd-alpha-ce KD_ALPHA_CE]
+                       [--kd-beta-ce KD_BETA_CE] [--kd-temp KD_TEMP]
+                       [--reset-iteration] [--load-teacher LOAD_TEACHER]
+                       [--inference-batch-times-seqlen-threshold INFERENCE_BATCH_TIMES_SEQLEN_THRESHOLD]
+                       [--max-tokens-to-oom MAX_TOKENS_TO_OOM]
+                       [--output-bert-embeddings]
+                       [--bert-embedder-type {megatron,huggingface}]
+                       [--fp8-e4m3] [--fp8-hybrid] [--no-fp8-wgrad]
+                       [--fp8-margin FP8_MARGIN] [--fp8-interval FP8_INTERVAL]
+                       [--transformer-impl {local,transformer_engine}]
+                       [--fp8-amax-history-len FP8_AMAX_HISTORY_LEN]
+                       [--fp8-amax-compute-algo {most_recent,max}]
+                       [--retro-workdir RETRO_WORKDIR] [--retro-add-retriever]
+                       [--retro-cyclic-train-iters RETRO_CYCLIC_TRAIN_ITERS]
+                       [--retro-encoder-layers RETRO_ENCODER_LAYERS]
+                       [--retro-encoder-hidden-dropout RETRO_ENCODER_HIDDEN_DROPOUT]
+                       [--retro-encoder-attention-dropout RETRO_ENCODER_ATTENTION_DROPOUT]
+                       [--retro-num-neighbors RETRO_NUM_NEIGHBORS]
+                       [--retro-num-retrieved-chunks RETRO_NUM_RETRIEVED_CHUNKS]
+                       [--retro-return-doc-ids] [--profile {pt,pt-full}]
+                       [--profile_steps PROFILE_STEPS]
+                       [--profile-ranks PROFILE_RANKS [PROFILE_RANKS ...]]
+                       [--deepspeed] [--deepspeed_config DEEPSPEED_CONFIG]
+                       [--deepscale] [--deepscale_config DEEPSCALE_CONFIG]
+pretrain_gpt.py: error: argument --tokenizer-type: invalid choice: 'Llama2Tokenizer' (choose from 'BertWordPieceLowerCase', 'BertWordPieceCase', 'GPT2BPETokenizer', 'SentencePieceTokenizer', 'GPTSentencePieceTokenizer', 'HFTokenizer', 'NullTokenizer')
+usage: pretrain_gpt.py [-h] [--num-layers NUM_LAYERS]
+                       [--encoder-num-layers ENCODER_NUM_LAYERS]
+                       [--decoder-num-layers DECODER_NUM_LAYERS]
+                       [--num-experts NUM_EXPERTS [NUM_EXPERTS ...]]
+                       [--mlp-type MLP_TYPE] [--topk TOPK]
+                       [--expert-interval EXPERT_INTERVAL]
+                       [--hidden-size HIDDEN_SIZE]
+                       [--ffn-hidden-size FFN_HIDDEN_SIZE]
+                       [--num-attention-heads NUM_ATTENTION_HEADS]
+                       [--num-key-value-heads NUM_KEY_VALUE_HEADS]
+                       [--kv-channels KV_CHANNELS]
+                       [--max-position-embeddings MAX_POSITION_EMBEDDINGS]
+                       [--use-rotary-position-embeddings]
+                       [--rotary-position-embeddings-theta ROPE_THETA]
+                       [--rotary-percent ROTARY_PERCENT]
+                       [--no-position-embedding]
+                       [--make-vocab-size-divisible-by MAKE_VOCAB_SIZE_DIVISIBLE_BY]
+                       [--normalization {layernorm,rmsnorm}]
+                       [--layernorm-epsilon LAYERNORM_EPSILON]
+                       [--apply-layernorm-1p] [--disable-mem-efficient-ln]
+                       [--apply-residual-connection-post-layernorm]
+                       [--openai-gelu] [--squared-relu] [--swiglu]
+                       [--onnx-safe ONNX_SAFE] [--bert-no-binary-head]
+                       [--num-experts-switch NUM_EXPERTS_SWITCH]
+                       [--untie-embeddings-and-output-weights]
+                       [--embedding-weights-in-fp32]
+                       [--kill-switch-file KILL_SWITCH_FILE]
+                       [--attention-dropout ATTENTION_DROPOUT]
+                       [--hidden-dropout HIDDEN_DROPOUT]
+                       [--weight-decay WEIGHT_DECAY]
+                       [--start-weight-decay START_WEIGHT_DECAY]
+                       [--end-weight-decay END_WEIGHT_DECAY]
+                       [--weight-decay-incr-style {constant,linear,cosine}]
+                       [--clip-grad CLIP_GRAD] [--adam-beta1 ADAM_BETA1]
+                       [--adam-beta2 ADAM_BETA2] [--adam-eps ADAM_EPS]
+                       [--sgd-momentum SGD_MOMENTUM]
+                       [--micro-batch-size MICRO_BATCH_SIZE]
+                       [--batch-size BATCH_SIZE]
+                       [--global-batch-size GLOBAL_BATCH_SIZE]
+                       [--rampup-batch-size [RAMPUP_BATCH_SIZE ...]]
+                       [--recompute-activations]
+                       [--recompute-granularity {full,selective}]
+                       [--distribute-saved-activations]
+                       [--recompute-method {uniform,block}]
+                       [--recompute-num-layers RECOMPUTE_NUM_LAYERS]
+                       [--enable-zbh1-pipeline]
+                       [--enable-zbh1-exact-semantics]
+                       [--checkpoint-activations]
+                       [--distribute-checkpointed-activations]
+                       [--checkpoint-num-layers CHECKPOINT_NUM_LAYERS]
+                       [--train-iters TRAIN_ITERS]
+                       [--train-samples TRAIN_SAMPLES]
+                       [--train-tokens TRAIN_TOKENS] [--random-ltd]
+                       [--log-interval LOG_INTERVAL]
+                       [--exit-interval EXIT_INTERVAL]
+                       [--exit-duration-in-mins EXIT_DURATION_IN_MINS]
+                       [--exit-signal-handler]
+                       [--tensorboard-dir TENSORBOARD_DIR]
+                       [--no-masked-softmax-fusion] [--no-bias-gelu-fusion]
+                       [--no-bias-dropout-fusion]
+                       [--disable-moe-token-dropping]
+                       [--moe-train-capacity-factor MOE_TRAIN_CAPACITY_FACTOR]
+                       [--moe-eval-capacity-factor MOE_EVAL_CAPACITY_FACTOR]
+                       [--moe-min-capacity MOE_MIN_CAPACITY]
+                       [--moe-loss-coeff MOE_LOSS_COEFF]
+                       [--create-moe-param-group]
+                       [--disable-moe-top2-2nd-expert-sampling]
+                       [--use-flash-attn] [--use-flash-attn-v2]
+                       [--use-flash-attn-triton] [--use-flash-attn-builder]
+                       [--disable-bias-linear] [--optimizer {adam,sgd}]
+                       [--dataloader-type {single,cyclic}] [--ds-inference]
+                       [--cpu-optimizer] [--cpu_torch_adam] [--ds_fused_adam]
+                       [--no-pipeline-parallel] [--use-tutel] [--inference]
+                       [--no-async-tensor-model-parallel-allreduce]
+                       [--no-persist-layer-norm] [--sequence-parallel]
+                       [--ds-sequence-parallel-size DS_SEQUENCE_PARALLEL_SIZE]
+                       [--force-ds-sequence-parallel]
+                       [--no-gradient-accumulation-fusion]
+                       [--use-dataset-only USE_DATASET_ONLY] [--seed SEED]
+                       [--data-parallel-random-init]
+                       [--init-method-std INIT_METHOD_STD]
+                       [--init-method-xavier-uniform] [--lr LR]
+                       [--lr-decay-style {constant,linear,cosine,inverse-square-root}]
+                       [--lr-decay-iters LR_DECAY_ITERS]
+                       [--lr-decay-samples LR_DECAY_SAMPLES]
+                       [--lr-decay-tokens LR_DECAY_TOKENS]
+                       [--lr-warmup-fraction LR_WARMUP_FRACTION]
+                       [--lr-warmup-iters LR_WARMUP_ITERS]
+                       [--lr-warmup-samples LR_WARMUP_SAMPLES]
+                       [--lr-warmup-tokens LR_WARMUP_TOKENS] [--warmup WARMUP]
+                       [--min-lr MIN_LR] [--override-opt_param-scheduler]
+                       [--use-checkpoint-opt_param-scheduler] [--save SAVE]
+                       [--save-interval SAVE_INTERVAL] [--no-save-optim]
+                       [--no-save-rng] [--load LOAD] [--load-tag LOAD_TAG]
+                       [--no-load-optim] [--no-load-rng] [--no-load-lr-state]
+                       [--finetune] [--no-initialization]
+                       [--use-checkpoint-args] [--exit-on-missing-checkpoint]
+                       [--universal-checkpoint] [--fp16] [--bf16]
+                       [--loss-scale LOSS_SCALE]
+                       [--initial-loss-scale INITIAL_LOSS_SCALE]
+                       [--min-loss-scale MIN_LOSS_SCALE]
+                       [--loss-scale-window LOSS_SCALE_WINDOW]
+                       [--hysteresis HYSTERESIS] [--fp32-residual-connection]
+                       [--no-query-key-layer-scaling]
+                       [--attention-softmax-in-fp32]
+                       [--accumulate-allreduce-grads-in-fp32]
+                       [--fp16-lm-cross-entropy]
+                       [--tensor-model-parallel-size TENSOR_MODEL_PARALLEL_SIZE]
+                       [--enable-expert-tensor-parallelism]
+                       [--pipeline-model-parallel-size PIPELINE_MODEL_PARALLEL_SIZE]
+                       [--pipeline-model-parallel-split-rank PIPELINE_MODEL_PARALLEL_SPLIT_RANK]
+                       [--moe-expert-parallel-size MOE_EXPERT_PARALLEL_SIZE]
+                       [--model-parallel-size MODEL_PARALLEL_SIZE]
+                       [--num-layers-per-virtual-pipeline-stage NUM_LAYERS_PER_VIRTUAL_PIPELINE_STAGE]
+                       [--overlap-p2p-communication]
+                       [--distributed-backend {nccl,gloo,ccl,hccl}]
+                       [--distributed-timeout-minutes DISTRIBUTED_TIMEOUT_MINUTES]
+                       [--DDP-impl {local,torch,FSDP}]
+                       [--no-contiguous-buffers-in-local-ddp]
+                       [--no-scatter-gather-tensors-in-pipeline]
+                       [--use-ring-exchange-p2p] [--local-rank LOCAL_RANK]
+                       [--lazy-mpu-init LAZY_MPU_INIT]
+                       [--use-cpu-initialization]
+                       [--empty-unused-memory-level {0,1,2}]
+                       [--standalone-embedding-stage]
+                       [--use-distributed-optimizer] [--eval-iters EVAL_ITERS]
+                       [--eval-interval EVAL_INTERVAL] [--skip-train]
+                       [--aml-data-download-path AML_DATA_DOWNLOAD_PATH]
+                       [--data-path [DATA_PATH ...]] [--split SPLIT]
+                       [--train-data-path [TRAIN_DATA_PATH ...]]
+                       [--valid-data-path [VALID_DATA_PATH ...]]
+                       [--test-data-path [TEST_DATA_PATH ...]]
+                       [--data-cache-path DATA_CACHE_PATH]
+                       [--vocab-size VOCAB_SIZE] [--vocab-file VOCAB_FILE]
+                       [--merge-file MERGE_FILE]
+                       [--vocab-extra-ids VOCAB_EXTRA_IDS]
+                       [--seq-length SEQ_LENGTH]
+                       [--encoder-seq-length ENCODER_SEQ_LENGTH]
+                       [--decoder-seq-length DECODER_SEQ_LENGTH]
+                       [--retriever-seq-length RETRIEVER_SEQ_LENGTH]
+                       [--sample-rate SAMPLE_RATE] [--mask-prob MASK_PROB]
+                       [--short-seq-prob SHORT_SEQ_PROB] [--mmap-warmup]
+                       [--num-workers NUM_WORKERS]
+                       [--tokenizer-type {BertWordPieceLowerCase,BertWordPieceCase,GPT2BPETokenizer,SentencePieceTokenizer,GPTSentencePieceTokenizer,HFTokenizer,NullTokenizer}]
+                       [--tokenizer-model TOKENIZER_MODEL]
+                       [--trust-remote-code] [--data-impl {mmap,infer}]
+                       [--reset-position-ids] [--reset-attention-mask]
+                       [--eod-mask-loss]
+                       [--train-data-exact-num-epochs TRAIN_DATA_EXACT_NUM_EPOCHS]
+                       [--return-data-index]
+                       [--data-efficiency-curriculum-learning]
+                       [--train-idx-path TRAIN_IDX_PATH]
+                       [--train-desc-path TRAIN_DESC_PATH]
+                       [--train-doc-idx-path TRAIN_DOC_IDX_PATH]
+                       [--train-sample-idx-path TRAIN_SAMPLE_IDX_PATH]
+                       [--train-shuffle-idx-path TRAIN_SHUFFLE_IDX_PATH]
+                       [--repeated-dataloader] [--adlr-autoresume]
+                       [--adlr-autoresume-interval ADLR_AUTORESUME_INTERVAL]
+                       [--ict-head-size ICT_HEAD_SIZE]
+                       [--biencoder-projection-dim BIENCODER_PROJECTION_DIM]
+                       [--biencoder-shared-query-context-model]
+                       [--ict-load ICT_LOAD] [--bert-load BERT_LOAD]
+                       [--titles-data-path TITLES_DATA_PATH]
+                       [--query-in-block-prob QUERY_IN_BLOCK_PROB]
+                       [--use-one-sent-docs]
+                       [--evidence-data-path EVIDENCE_DATA_PATH]
+                       [--retriever-report-topk-accuracies RETRIEVER_REPORT_TOPK_ACCURACIES [RETRIEVER_REPORT_TOPK_ACCURACIES ...]]
+                       [--retriever-score-scaling]
+                       [--block-data-path BLOCK_DATA_PATH]
+                       [--embedding-path EMBEDDING_PATH]
+                       [--indexer-batch-size INDEXER_BATCH_SIZE]
+                       [--indexer-log-interval INDEXER_LOG_INTERVAL]
+                       [--num-classes NUM_CLASSES] [--img-h IMG_H]
+                       [--img-w IMG_W] [--num-channels NUM_CHANNELS]
+                       [--patch-dim PATCH_DIM]
+                       [--classes-fraction CLASSES_FRACTION]
+                       [--data-per-class-fraction DATA_PER_CLASS_FRACTION]
+                       [--no-data-sharding] [--head-lr-mult HEAD_LR_MULT]
+                       [--vision-pretraining]
+                       [--vision-pretraining-type {classify,inpaint,dino}]
+                       [--vision-backbone-type {vit,mit,swin}]
+                       [--swin-backbone-type {tiny,base,h3}]
+                       [--mask-type {random,row}] [--mask-factor MASK_FACTOR]
+                       [--iter-per-epoch ITER_PER_EPOCH]
+                       [--dino-local-img-size DINO_LOCAL_IMG_SIZE]
+                       [--dino-local-crops-number DINO_LOCAL_CROPS_NUMBER]
+                       [--dino-head-hidden-size DINO_HEAD_HIDDEN_SIZE]
+                       [--dino-bottleneck-size DINO_BOTTLENECK_SIZE]
+                       [--dino-freeze-last-layer DINO_FREEZE_LAST_LAYER]
+                       [--dino-norm-last-layer]
+                       [--dino-warmup-teacher-temp DINO_WARMUP_TEACHER_TEMP]
+                       [--dino-teacher-temp DINO_TEACHER_TEMP]
+                       [--dino-warmup-teacher-temp-epochs DINO_WARMUP_TEACHER_TEMP_EPOCHS]
+                       [--log-params-norm] [--log-num-zeros-in-grad]
+                       [--timing-log-level {0,1,2}]
+                       [--no-barrier-with-level-1-timing]
+                       [--timing-log-option {max,minmax,all}]
+                       [--tensorboard-log-interval TENSORBOARD_LOG_INTERVAL]
+                       [--tensorboard-queue-size TENSORBOARD_QUEUE_SIZE]
+                       [--log-timers-to-tensorboard]
+                       [--log-batch-size-to-tensorboard]
+                       [--no-log-learnig-rate-to-tensorboard]
+                       [--no-log-loss-scale-to-tensorboard]
+                       [--log-validation-ppl-to-tensorboard]
+                       [--log-optimizer-states-to-tensorboard]
+                       [--log-memory-to-tensorboard]
+                       [--log-world-size-to-tensorboard]
+                       [--wandb-project WANDB_PROJECT]
+                       [--wandb-exp-name WANDB_EXP_NAME]
+                       [--wandb-save-dir WANDB_SAVE_DIR]
+                       [--zero-stage ZERO_STAGE] [--zero-reduce-scatter]
+                       [--zero-contigious-gradients]
+                       [--zero-reduce-bucket-size ZERO_REDUCE_BUCKET_SIZE]
+                       [--zero-allgather-bucket-size ZERO_ALLGATHER_BUCKET_SIZE]
+                       [--remote-device {none,cpu,nvme}] [--use-pin-memory]
+                       [--scattered-embeddings] [--split-transformers]
+                       [--memory-centric-tiled-linear]
+                       [--tile-factor TILE_FACTOR]
+                       [--deepspeed-activation-checkpointing]
+                       [--partition-activations] [--contigious-checkpointing]
+                       [--checkpoint-in-cpu] [--synchronize-each-layer]
+                       [--profile-backward]
+                       [--num-layers-teacher NUM_LAYERS_TEACHER]
+                       [--num-experts-teacher NUM_EXPERTS_TEACHER [NUM_EXPERTS_TEACHER ...]]
+                       [--hidden-size-teacher HIDDEN_SIZE_TEACHER]
+                       [--num-attention-heads-teacher NUM_ATTENTION_HEADS_TEACHER]
+                       [--mos] [--kd] [--kd-alpha-ce KD_ALPHA_CE]
+                       [--kd-beta-ce KD_BETA_CE] [--kd-temp KD_TEMP]
+                       [--reset-iteration] [--load-teacher LOAD_TEACHER]
+                       [--inference-batch-times-seqlen-threshold INFERENCE_BATCH_TIMES_SEQLEN_THRESHOLD]
+                       [--max-tokens-to-oom MAX_TOKENS_TO_OOM]
+                       [--output-bert-embeddings]
+                       [--bert-embedder-type {megatron,huggingface}]
+                       [--fp8-e4m3] [--fp8-hybrid] [--no-fp8-wgrad]
+                       [--fp8-margin FP8_MARGIN] [--fp8-interval FP8_INTERVAL]
+                       [--transformer-impl {local,transformer_engine}]
+                       [--fp8-amax-history-len FP8_AMAX_HISTORY_LEN]
+                       [--fp8-amax-compute-algo {most_recent,max}]
+                       [--retro-workdir RETRO_WORKDIR] [--retro-add-retriever]
+                       [--retro-cyclic-train-iters RETRO_CYCLIC_TRAIN_ITERS]
+                       [--retro-encoder-layers RETRO_ENCODER_LAYERS]
+                       [--retro-encoder-hidden-dropout RETRO_ENCODER_HIDDEN_DROPOUT]
+                       [--retro-encoder-attention-dropout RETRO_ENCODER_ATTENTION_DROPOUT]
+                       [--retro-num-neighbors RETRO_NUM_NEIGHBORS]
+                       [--retro-num-retrieved-chunks RETRO_NUM_RETRIEVED_CHUNKS]
+                       [--retro-return-doc-ids] [--profile {pt,pt-full}]
+                       [--profile_steps PROFILE_STEPS]
+                       [--profile-ranks PROFILE_RANKS [PROFILE_RANKS ...]]
+                       [--deepspeed] [--deepspeed_config DEEPSPEED_CONFIG]
+                       [--deepscale] [--deepscale_config DEEPSCALE_CONFIG]
+pretrain_gpt.py: error: argument --tokenizer-type: invalid choice: 'Llama2Tokenizer' (choose from 'BertWordPieceLowerCase', 'BertWordPieceCase', 'GPT2BPETokenizer', 'SentencePieceTokenizer', 'GPTSentencePieceTokenizer', 'HFTokenizer', 'NullTokenizer')
+[2024-11-28 19:45:41,029] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 1195
+[2024-11-28 19:45:41,031] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 1196
+[2024-11-28 19:45:41,031] [ERROR] [launch.py:325:sigkill_handler] ['/usr/bin/python', '-u', '/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py', '--local_rank=1', '--nproc_per_node', '2', '--nnodes', '2', '--node_rank', '0', '--master_addr', 'jo-c76qi7jstfxxctvg-worker-0', '--master_port', '9200', '--tensor-model-parallel-size', '2', '--pipeline-model-parallel-size', '1', '--sequence-parallel', '--num-layers', '32', '--hidden-size', '4096', '--num-attention-heads', '32', '--ffn-hidden-size', '11008', '--seq-length', '4096', '--max-position-embeddings', '4096', '--position-embedding-type', 'rope', '--micro-batch-size', '1', '--global-batch-size', '16', '--vocab-size', '55295', '--make-vocab-size-divisible-by', '2', '--lr', '1e-5', '--lr-decay-iters', '5', '--lr-decay-style', 'cosine', '--lr-warmup-fraction', '0.003', '--min-lr', '1.5e-6', '--norm-epsilon', '1e-5', '--weight-decay', '1e-2', '--swiglu', '--no-masked-softmax-fusion', '--no-bias-gelu-fusion', '--no-bias-dropout-fusion', '--untie-embeddings-and-output-weights', '--disable-bias-linear', '--clip-grad', '1.0', '--bf16', '--recompute-granularity', 'full', '--recompute-method', 'uniform', '--recompute-num-layers', '2', '--no-check-for-nan-in-loss-and-grad', '--data-path', '/mnt/huangyonghua/huangyonghua/long-inst-4k', '--train-iters', '5', '--tokenizer-type', 'Llama2Tokenizer', '--tokenizer-model', '/mnt/huangyonghua/huangyonghua/model/tokenizer.model', '--dataloader-type', 'cyclic', '--num-workers', '8', '--split', '1000,0,0', '--log-interval', '1', '--save-interval', '1', '--eval-interval', '1000', '--eval-iters', '0', '--seed', '42', '--distributed-backend', 'nccl', '--tensorboard-dir', '/mnt/huangyonghua/huangyonghua/Megatron-LM/tensorboard/llama_exp/1.3b_int8_i1000/no_quant', '--use-flash-attn', '--use-distributed-optimizer', '--empty-unused-memory-level', '2', '--tensorboard-log-interval', '1', '--tensorboard-queue-size', '5', '--log-timers-to-tensorboard', '--log-memory-to-tensorboard'] exits with return code = 2

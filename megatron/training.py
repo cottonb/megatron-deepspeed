@@ -19,6 +19,8 @@ from collections import OrderedDict
 from torch.nn.parallel.distributed import DistributedDataParallel as torchDDP
 from enum import Enum
 
+from megatron import get_tokenizer
+
 from megatron import get_args
 from megatron import get_signal_handler
 from megatron import get_timers
@@ -124,6 +126,7 @@ def pretrain(train_valid_test_dataset_provider,
         args_defaults: a dictionary from argument-name to argument-value. It
             to set already parse arguments.
     """
+    print(f'megatron-deepspeed执行pretrain')
 
     # Initalize and get arguments, timers, and Tensorboard writer.
     initialize_megatron(extra_args_provider=extra_args_provider,
