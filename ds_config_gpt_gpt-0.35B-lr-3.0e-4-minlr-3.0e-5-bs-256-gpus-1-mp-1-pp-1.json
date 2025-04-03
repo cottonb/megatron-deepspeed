@@ -1,14 +1,15 @@
 {
-  "train_batch_size" : CONFIG_BATCH_SIZE,
-  "train_micro_batch_size_per_gpu": CONFIG_MBSIZE,
-  "steps_per_print": LOG_INTERVAL,
+  "train_batch_size" : 256,
+  "train_micro_batch_size_per_gpu": 2,
+  "steps_per_print": 1,
+
 
   "zero_optimization": {
     "stage": 3,
     "offload_optimizer": {
-      "device": "cpu",
-      "pin_memory": true,
-      "ratio": 1
+        "device": "cpu",
+        "pin_memory": true,
+        "ratio": 1
     }
   },
 
@@ -16,7 +17,7 @@
   "prescale_gradients":false,
 
   "fp16": {
-    "enabled": CONFIG_FP16_ENABLED,
+    "enabled": false,
     "loss_scale": 0,
     "loss_scale_window": 500,
     "hysteresis": 2,
@@ -25,8 +26,10 @@
   },
 
   "bf16": {
-    "enabled": CONFIG_BF16_ENABLED
+    "enabled": true
   },
 
-  "wall_clock_breakdown" : false
+  "wall_clock_breakdown" : true
 }
+
+

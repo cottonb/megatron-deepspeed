@@ -433,17 +433,25 @@ def _build_index_mappings(name, data_prefix, documents, sizes,
 
 
         try:
+            print(f'进try了')
             os.makedirs(data_cache_dir, exist_ok=True)
 
             # description
             with open(idx_path['desc'], 'wt') as fd:
                 fd.write(desc)
+            
+            print(f'写文件完成')
 
             # doc-idx.
             start_time = time.time()
-            doc_idx = _build_doc_idx(documents, num_epochs, np_rng,
-                                     separate_last_epoch)
+            try:
+                doc_idx = _build_doc_idx(documents, num_epochs, np_rng,
+                                        separate_last_epoch)
+            except IndexError as e:
+                print(f'访存越界')
+            print(f'路径:{idx_path["doc"]}')
             np.save(idx_path['doc'], doc_idx, allow_pickle=True)
+            print(f'np存完')
             print_rank_0(' > elasped time to build and save doc-idx mapping '
                          '(seconds): {:4f}'.format(time.time() - start_time))
             # sample-idx.
@@ -471,6 +479,7 @@ def _build_index_mappings(name, data_prefix, documents, sizes,
             np.save(idx_path['shuffle'], shuffle_idx, allow_pickle=True)
             print_rank_0(' > elasped time to build and save shuffle-idx mapping'
                          ' (seconds): {:4f}'.format(time.time() - start_time))
+            print(f'try干完了')
         except OSError:
             print(f'There was an error trying to create the data cache directory ({data_cache_dir})')
             print('or a file in it. This defaults to a directory "index-cache" within the directory')
@@ -478,6 +487,10 @@ def _build_index_mappings(name, data_prefix, documents, sizes,
             print('ensure you have write access to this directory or specify one that you do have')
             print('write access to.')
             data_cache_success = False
+        except Exception as e:
+            print(f'奇奇怪怪的错:{e}')
+            assert 0>1, "奇奇怪怪的错"
+        print(f'出try了')
 
     counts = get_accelerator().LongTensor([data_cache_success])
     torch.distributed.all_reduce(counts, group=mpu.get_data_parallel_group())
@@ -532,8 +545,14 @@ def _num_epochs(tokens_per_epoch, seq_length, num_samples):
 def _build_doc_idx(documents, num_epochs, np_rng, separate_last_epoch):
     """Build an array with length = number-of-epochs * number-of-dcuments.
     Each index is mapped to a corresponding document."""
+    print(f'build一次')
     if not separate_last_epoch or num_epochs == 1:
-        doc_idx = np.mgrid[0:num_epochs, 0:len(documents)][1]
+        print(f'num_epochs:{num_epochs}|len(documents):{len(documents)}')
+        try:
+            doc_idx = np.mgrid[0:num_epochs, 0:len(documents)][1]
+        except MemoryError:
+            print(f'内存溢出')
+        print(f'doc idx:{doc_idx}')
         doc_idx[:] = documents
         doc_idx = doc_idx.reshape(-1)
         doc_idx = doc_idx.astype(np.int32)

@@ -95,6 +95,9 @@ class MixedFusedLayerNorm(torch.nn.Module):
               "This warning should only be triggered in the FusedLayerNorm unit tests.")
         return F.layer_norm(input, self.normalized_shape, weight, self.bias, self.eps)
 
+    if self.no_persist_layer_norm == False:
+        print(f'注意，apex的forward不同版本mem_efficient_ln新的版本有，老版本没有，所以这里先把self.no_persist_layer_norm = True')
+        self.no_persist_layer_norm = True
     if self.no_persist_layer_norm:
         # Apex does not have versions yet (https://github.com/NVIDIA/apex/pull/1648), so we need to inspect 
         # the function manually on whether the extra arg introduced in https://github.com/NVIDIA/apex/pull/1715 exists yet

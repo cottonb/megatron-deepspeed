@@ -1,15 +1,14 @@
 #!/bin/bash
-export https_proxy=http://10.10.20.100:1089 http_proxy=http://10.10.20.100:1089 all_proxy=socks5://10.10.20.100:1089
-pip install sentencepiece
-pip install datasets
-pip install py-cpuinfo
-pip install hjson
-pip install transformers
-unset https_proxy http_proxy all_proxy
+pip show sentencepiece || pip install sentencepiece
+pip show datasets || pip install datasets
+pip show py-cpuinfo || pip install py-cpuinfo
+pip show hjson || pip install hjson
+pip show transformers || pip install transformers
 
-export PYTHONPATH=$PYTHONPATH:/mnt/huangyonghua/huangyonghua/DeepSpeed
-export PYTHONPATH=$PYTHONPATH:/mnt/huangyonghua/huangyonghua/mizar-checkpoint-engine
-export PYTHONPATH=$PYTHONPATH:/mnt/huangyonghua/huangyonghua/Megatron-LM-chunksave
+export PYTHONPATH=$PYTHONPATH:/mnt/huangyonghua/bupt/deepspeed-all-offload
+export ENABLE_ALL_OFFLOAD=1
+
+export OMP_NUM_THREADS=10
 
 
 #!/bin/bash
@@ -33,13 +32,7 @@ SEQ_LEN=2048
 # MIN_LR=6.0e-5
 
 ## GPT-3 Medium 350M
-MODEL_SIZE=0.35
-NUM_LAYERS=24
-HIDDEN_SIZE=1024
-NUM_ATTN_HEADS=16
-GLOBAL_BATCH_SIZE=256
-LR=3.0e-4
-MIN_LR=3.0e-5
+# MODEL_SIZE=0.35
 
 ## GPT-3 Large 760M
 # MODEL_SIZE=0.76
@@ -60,13 +53,13 @@ MIN_LR=3.0e-5
 # MIN_LR=2.0e-5
 
 ## GPT-3 2.7B
-# MODEL_SIZE=2.7
-# NUM_LAYERS=32
-# HIDDEN_SIZE=2560
-# NUM_ATTN_HEADS=32
-# GLOBAL_BATCH_SIZE=512
-# LR=1.6e-4
-# MIN_LR=1.6e-5
+MODEL_SIZE=2.7
+NUM_LAYERS=32
+HIDDEN_SIZE=2560
+NUM_ATTN_HEADS=32
+GLOBAL_BATCH_SIZE=512
+LR=1.6e-4
+MIN_LR=1.6e-5
 
 ## GPT-3 6.7B
 # MODEL_SIZE=6.7
@@ -98,7 +91,7 @@ MIN_LR=3.0e-5
 ### Training duration configs
 ## The main termination condition, original GPT-3 paper trains for 300B tokens
 ## For MoE model, we found sometimes training a bit more to 330B tokens helps
-TRAIN_TOKENS=300000000000
+TRAIN_TOKENS=30000000
 # TRAIN_TOKENS=330000000000
 
 ## TRAIN_SAMPLES is another termination condition and also affect the number of 
@@ -117,9 +110,11 @@ EXIT_DURATION=30000000
 ## no need to readjust when the batch size/seqlen is changed.
 ## Original GPT-3 paper uses 375M warmup tokens and 260B decay tokens.
 ## For MoE model, we found that setting the decay token to 300B helps.
-WARMUP_TOKENS=375000000
-LR_DECAY_TOKENS=260000000000
+WARMUP_TOKENS=37500
+LR_DECAY_TOKENS=26000000
 # LR_DECAY_TOKENS=300000000000
+
+# 并行配置
 ###############################################################################
 ### Parallelism configs
 ## Micro batch size per GPU
@@ -127,13 +122,13 @@ LR_DECAY_TOKENS=260000000000
 BATCH_SIZE=2
 
 ## Model parallelism, 1 is no MP
-MP_SIZE=2
+MP_SIZE=1
 
 ## Pipeline parallelism
 ## Currently we don't support PP for MoE. To disable PP, set PP_SIZE
 ## to 1 and use the "--no-pipeline-parallel" arg.
 PP_SIZE=1
-NUM_GPUS=16
+NUM_GPUS=$(echo $NVIDIA_VISIBLE_DEVICES | awk -F"," '{print NF}')
 ###############################################################################
 ### MoE configs
 ## Number of experts. EP_SIZE 1 means dense model without MoE
@@ -192,8 +187,8 @@ INIT_STD=0.014
 # INIT_STD=0.01
 
 ## Activation checkpointing saves GPU memory, but reduces training speed
-ACTIVATION_CHECKPOINT="true"
-# ACTIVATION_CHECKPOINT="false"
+# ACTIVATION_CHECKPOINT="true"
+ACTIVATION_CHECKPOINT="false"
 ###############################################################################
 ### Output and data configs
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
@@ -217,10 +212,10 @@ mkdir -p ${TENSORBOARD_DIR}
 CHECKPOINT_PATH="${OUTPUT_BASEPATH}/checkpoint/${NAME}"
 
 
-VOCAB_PATH=/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/dataset/gpt2-vocab.json
-MERGE_PATH=/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/dataset/gpt2-merges.txt
+VOCAB_PATH=/mnt/huangyonghua/bupt/megatron-data/vocab.json
+MERGE_PATH=/mnt/huangyonghua/bupt/megatron-data/merges.txt
 # Public the Pile dataset, can be downloaded at https://mystic.the-eye.eu/public/AI/pile_neox/
-DATA_BLEND=/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/dataset/BookCorpusDataset_text_document
+DATA_BLEND=/mnt/huangyonghua/bupt/megatron-data/gpt2_text_document
 
 ###############################################################################
 data_options=" \
@@ -228,7 +223,7 @@ data_options=" \
          --merge-file ${MERGE_PATH} \
          --data-path ${DATA_BLEND} \
          --data-impl mmap"
-        
+
 megatron_options=" \
         --override-opt_param-scheduler \
         --adam-beta1 0.9 \
@@ -267,16 +262,21 @@ megatron_options=" \
         --hysteresis 2 \
         --num-workers 0 \
         --fp16 \
-        --load ${CHECKPOINT_PATH} \
+
+        --cpu-optimizer \
+
         --save ${CHECKPOINT_PATH} \
         --tensorboard-queue-size 1 \
         --log-timers-to-tensorboard \
         --timing-log-level 1 \
         --no-pipeline-parallel \
-        --cpu-optimizer \
+        
         --log-batch-size-to-tensorboard \
         --log-validation-ppl-to-tensorboard \
         --tensorboard-dir ${TENSORBOARD_DIR}"
+
+# --cpu-optimizer \
+# --load ${CHECKPOINT_PATH} \
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then
 megatron_options="${megatron_options} \
@@ -293,8 +293,10 @@ megatron_options="${megatron_options} \
         --disable-moe-token-dropping"
 fi
 
+# template_json="ds_config_gpt_TEMPLATE.json"
 template_json="ds_config_gpt_TEMPLATE.json"
 config_json="ds_config_gpt_${NAME}.json"
+echo 配置名:$config_json
 sed "s/CONFIG_BATCH_SIZE/${GLOBAL_BATCH_SIZE}/" ${template_json} \
     | sed "s/CONFIG_MBSIZE/${BATCH_SIZE}/" \
     | sed "s/LOG_INTERVAL/${LOG_INTERVAL}/" \
@@ -324,9 +326,26 @@ deepspeed_options="${deepspeed_options} \
         --deepspeed-activation-checkpointing"
 fi
 
-ds=/mnt/huangyonghua/huangyonghua/DeepSpeed/bin/deepspeed
-run_name=/mnt/huangyonghua/huangyonghua/Megatron-DeepSpeed/pretrain_gpt.py
-run_cmd="python $ds $run_name ${megatron_options} ${data_options} ${deepspeed_options} |  tee ${OUTPUT_BASEPATH}/log/${NAME}_${host}_${current_time}.log"
+
+NNODES=${WORLD_SIZE:-1}
+export NODE_RANK=${RANK:-0}
+MASTER_ADDR=${MASTER_ADDR:-localhost}
+MASTER_PORT=9200
+hostfile=./myhostfile
+DISTRIBUTED_ARGS="
+    --no_ssh \
+    --num_nodes=$NNODES\
+    --node_rank=$RANK\
+    --master_addr=$MASTER_ADDR \
+    --master_port=$MASTER_PORT\
+    --hostfile=$hostfile"
+
+# --bind_cores_to_rank
+
+
+ds=/mnt/huangyonghua/bupt/deepspeed-all-offload/bin/deepspeed
+run_name=/mnt/huangyonghua/bupt/Megatron-DeepSpeed/pretrain_gpt.py
+run_cmd="python $ds ${DISTRIBUTED_ARGS} $run_name ${megatron_options} ${data_options} ${deepspeed_options}  |  tee ${OUTPUT_BASEPATH}/log/${NAME}_${host}_${current_time}.log"
 echo ${run_cmd}
 eval ${run_cmd}
 # set +x

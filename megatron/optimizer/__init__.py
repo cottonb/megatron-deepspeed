@@ -87,6 +87,7 @@ def get_megatron_optimizer(model,
         else:
             from deepspeed.ops.adam import DeepSpeedCPUAdam
             cpu_adam_optimizer = DeepSpeedCPUAdam
+        print(f'优化器类型为:{cpu_adam_optimizer}')
         optimizer = cpu_adam_optimizer(param_groups,
                                        lr=args.lr,
                                        weight_decay=args.weight_decay,

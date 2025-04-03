@@ -353,7 +353,8 @@ def git_ds_info():
 
 if __name__ == "__main__":
     git_ds_info()
-    print(f'执行gpt')
+    num_threads = os.environ.get("OMP_NUM_THREADS")
+    print(f'执行gpt, 线程数：{num_threads}')
     pretrain(train_valid_test_datasets_provider,
              model_provider,
              ModelType.encoder_or_decoder,

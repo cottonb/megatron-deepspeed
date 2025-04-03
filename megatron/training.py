@@ -1040,7 +1040,7 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
             if not hasattr(optimizer, "state"):
                 assert hasattr(optimizer, "optimizer"), f"Optimizer must have optimizer property."
                 optimizer.state = optimizer.optimizer.state
-
+            
             for _, group in enumerate(optimizer.param_groups):
                 for _, param in enumerate(group['params']):
                     opt_stats[0] += (torch.norm(optimizer.state[param]['exp_avg_sq']).item())**2

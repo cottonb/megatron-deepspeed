@@ -1283,6 +1283,7 @@ class ParallelTransformerLayer(MegatronModule):
             else:
                 bias_dropout_add_func = get_bias_dropout_add(self.training)
 
+            print(f'megatron前向:residual shape{residual.shape}, attention_bias.shape:{attention_bias.shape}')
             if attention_bias is not None:
                 attention_bias = attention_bias.expand_as(residual)
             with self.bias_dropout_add_exec_handler():
