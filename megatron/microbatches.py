@@ -4,6 +4,7 @@
 
 from abc import ABC
 from abc import abstractmethod
+import traceback
 
 
 def build_num_microbatches_calculator(args):
@@ -140,5 +141,6 @@ class RampupBatchsizeNumMicroBatches(NumMicroBatchesCalculator):
                 'data parallel size ({})'.format(self.current_global_batch_size,
                                                  self.micro_batch_size,
                                                  self.data_parallel_size)
+        
         self.num_micro_batches = self.current_global_batch_size // \
                                  self.micro_batch_times_data_parallel_size

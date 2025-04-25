@@ -2,6 +2,8 @@
 
 """Pretrain GPT"""
 
+import random
+import numpy as np
 import torch
 import math
 from functools import partial
@@ -351,7 +353,17 @@ def git_ds_info():
     print(f'**** Git info for Megatron: git_hash={git_hash} git_branch={git_branch} ****')
 
 
+def set_seed(seed):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed) 
+
+
 if __name__ == "__main__":
+    # set_seed(58)
     git_ds_info()
     num_threads = os.environ.get("OMP_NUM_THREADS")
     print(f'执行gpt, 线程数：{num_threads}')

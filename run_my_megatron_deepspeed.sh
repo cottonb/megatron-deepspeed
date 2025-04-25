@@ -1,3 +1,4 @@
+# export https_proxy=http://10.10.20.100:1089 http_proxy=http://10.10.20.100:1089 all_proxy=socks5://10.10.20.100:1089
 #!/bin/bash
 pip show sentencepiece || pip install sentencepiece
 pip show datasets || pip install datasets
@@ -10,6 +11,8 @@ export ENABLE_ALL_OFFLOAD=1
 
 export OMP_NUM_THREADS=10
 
+export LOCAL_WORLD_SIZE=1
+
 
 #!/bin/bash
 DIR=`pwd`
@@ -21,6 +24,24 @@ SEQ_LEN=2048
 ### The "GPT-3 XXX" below are configs from GPT-3 paper
 ### https://arxiv.org/abs/2005.14165, choose based on
 ### your desired model size or build your own configs
+
+# 极小测试用
+# MODEL_SIZE=0.125
+# NUM_LAYERS=3
+# HIDDEN_SIZE=24
+# NUM_ATTN_HEADS=3
+# GLOBAL_BATCH_SIZE=256
+# LR=6.0e-4
+# MIN_LR=6.0e-5
+
+## GPT-3 Small 125M
+# MODEL_SIZE=0.125
+# NUM_LAYERS=12
+# HIDDEN_SIZE=768
+# NUM_ATTN_HEADS=12
+# GLOBAL_BATCH_SIZE=256
+# LR=6.0e-4
+# MIN_LR=6.0e-5
 
 ## GPT-3 Small 125M
 # MODEL_SIZE=0.125
@@ -35,13 +56,16 @@ SEQ_LEN=2048
 # MODEL_SIZE=0.35
 
 ## GPT-3 Large 760M
-# MODEL_SIZE=0.76
-# NUM_LAYERS=24
-# HIDDEN_SIZE=1536
-# NUM_ATTN_HEADS=16
-# GLOBAL_BATCH_SIZE=256
-# LR=2.5e-4
-# MIN_LR=2.5e-5
+MODEL_SIZE=0.76
+NUM_LAYERS=24
+HIDDEN_SIZE=1536
+NUM_ATTN_HEADS=16
+GLOBAL_BATCH_SIZE=256
+# GLOBAL_BATCH_SIZE=64
+LR=2.5e-4
+MIN_LR=2.5e-5
+
+
 
 ## GPT-3 XL 1.3B
 # MODEL_SIZE=1.3
@@ -53,13 +77,13 @@ SEQ_LEN=2048
 # MIN_LR=2.0e-5
 
 ## GPT-3 2.7B
-MODEL_SIZE=2.7
-NUM_LAYERS=32
-HIDDEN_SIZE=2560
-NUM_ATTN_HEADS=32
-GLOBAL_BATCH_SIZE=512
-LR=1.6e-4
-MIN_LR=1.6e-5
+# MODEL_SIZE=2.7
+# NUM_LAYERS=32
+# HIDDEN_SIZE=2560
+# NUM_ATTN_HEADS=32
+# GLOBAL_BATCH_SIZE=512
+# LR=1.6e-4
+# MIN_LR=1.6e-5
 
 ## GPT-3 6.7B
 # MODEL_SIZE=6.7
@@ -119,7 +143,8 @@ LR_DECAY_TOKENS=26000000
 ### Parallelism configs
 ## Micro batch size per GPU
 ## Make sure that BATCH_SIZE <= GLOBAL_BATCH_SIZE*PP_SIZE*MP_SIZE/NUM_GPUS
-BATCH_SIZE=2
+# BATCH_SIZE=2
+BATCH_SIZE=4
 
 ## Model parallelism, 1 is no MP
 MP_SIZE=1
@@ -240,7 +265,7 @@ megatron_options=" \
         --lr-warmup-tokens ${WARMUP_TOKENS} \
         --micro-batch-size ${BATCH_SIZE} \
         --exit-duration-in-mins ${EXIT_DURATION} \
-        --rampup-batch-size 32 32 1953125 \
+        --rampup-batch-size 8 8 1953125 \
         --global-batch-size ${GLOBAL_BATCH_SIZE} \
         --num-layers ${NUM_LAYERS} \
         --hidden-size ${HIDDEN_SIZE} \
@@ -277,6 +302,7 @@ megatron_options=" \
 
 # --cpu-optimizer \
 # --load ${CHECKPOINT_PATH} \
+# --rampup-batch-size 32 32 1953125 \
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then
 megatron_options="${megatron_options} \
@@ -335,12 +361,13 @@ hostfile=./myhostfile
 DISTRIBUTED_ARGS="
     --no_ssh \
     --num_nodes=$NNODES\
-    --node_rank=$RANK\
+    --node_rank=$NODE_RANK\
     --master_addr=$MASTER_ADDR \
     --master_port=$MASTER_PORT\
     --hostfile=$hostfile"
 
 # --bind_cores_to_rank
+# --node_rank=$RANK\
 
 
 ds=/mnt/huangyonghua/bupt/deepspeed-all-offload/bin/deepspeed

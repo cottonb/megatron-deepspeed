@@ -709,6 +709,8 @@ def train_step(forward_step_func, data_iterator,
     if args.timing_log_level < 2:
         config.timers = None
 
+
+    print(f'megatron中, microbatch数{get_num_microbatches()}, {args.micro_batch_size}')
     losses_reduced = forward_backward_func(
         forward_step_func=forward_step_func,
         data_iterator=data_iterator,

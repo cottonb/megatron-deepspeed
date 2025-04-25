@@ -33,6 +33,7 @@ def get_retro_args():
 
 
 def get_num_microbatches():
+    print(f'megatron中, microbatch计算type:{type(_GLOBAL_NUM_MICROBATCHES_CALCULATOR)}')
     return _GLOBAL_NUM_MICROBATCHES_CALCULATOR.get()
 
 
