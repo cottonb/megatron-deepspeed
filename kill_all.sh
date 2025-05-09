@@ -35,6 +35,18 @@ if [ -n "$train_pid" ]; then
     kill -9 $train_pid
 fi
 
+
+train_pid=$(pgrep -f idp_opt.py)
+if [ -n "$train_pid" ]; then
+    kill -9 $train_pid
+fi
+
+train_pid=$(pgrep -f shared_holder.py)
+if [ -n "$train_pid" ]; then
+    kill -9 $train_pid
+fi
+
+
 # sh kill_backuper.sh
 # sh kill_trainer.sh
 # sh kill_saver.sh

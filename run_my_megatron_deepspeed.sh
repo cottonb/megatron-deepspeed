@@ -11,7 +11,7 @@ export ENABLE_ALL_OFFLOAD=1
 
 export OMP_NUM_THREADS=10
 
-export LOCAL_WORLD_SIZE=1
+export LOCAL_WORLD_SIZE=$(python3 -c 'import torch;print(torch.cuda.device_count())')
 
 
 #!/bin/bash
@@ -60,8 +60,8 @@ MODEL_SIZE=0.76
 NUM_LAYERS=24
 HIDDEN_SIZE=1536
 NUM_ATTN_HEADS=16
-GLOBAL_BATCH_SIZE=256
-# GLOBAL_BATCH_SIZE=64
+# GLOBAL_BATCH_SIZE=256
+GLOBAL_BATCH_SIZE=64
 LR=2.5e-4
 MIN_LR=2.5e-5
 
@@ -75,6 +75,15 @@ MIN_LR=2.5e-5
 # GLOBAL_BATCH_SIZE=512
 # LR=2.0e-4
 # MIN_LR=2.0e-5
+
+## GPT-3 2.7B 缩小了global batch 
+# MODEL_SIZE=2.7
+# NUM_LAYERS=32
+# HIDDEN_SIZE=2560
+# NUM_ATTN_HEADS=32
+# GLOBAL_BATCH_SIZE=64
+# LR=1.6e-4
+# MIN_LR=1.6e-5
 
 ## GPT-3 2.7B
 # MODEL_SIZE=2.7
@@ -153,7 +162,14 @@ MP_SIZE=1
 ## Currently we don't support PP for MoE. To disable PP, set PP_SIZE
 ## to 1 and use the "--no-pipeline-parallel" arg.
 PP_SIZE=1
-NUM_GPUS=$(echo $NVIDIA_VISIBLE_DEVICES | awk -F"," '{print NF}')
+NUM_GPUS=$LOCAL_WORLD_SIZE
+
+
+total_gpus=$(($NUM_GPUS * $WORLD_SIZE))
+mid_batch_size=$(($total_gpus * $BATCH_SIZE))
+echo 节点数:$WORLD_SIZE
+echo 总gpu数:$total_gpus
+echo 中等batch_size:$mid_batch_size
 ###############################################################################
 ### MoE configs
 ## Number of experts. EP_SIZE 1 means dense model without MoE
@@ -265,7 +281,7 @@ megatron_options=" \
         --lr-warmup-tokens ${WARMUP_TOKENS} \
         --micro-batch-size ${BATCH_SIZE} \
         --exit-duration-in-mins ${EXIT_DURATION} \
-        --rampup-batch-size 8 8 1953125 \
+        --rampup-batch-size ${mid_batch_size} ${mid_batch_size} 1953125 \
         --global-batch-size ${GLOBAL_BATCH_SIZE} \
         --num-layers ${NUM_LAYERS} \
         --hidden-size ${HIDDEN_SIZE} \
@@ -288,7 +304,9 @@ megatron_options=" \
         --num-workers 0 \
         --fp16 \
 
-        --cpu-optimizer \
+        
+
+        --recompute-activations\
 
         --save ${CHECKPOINT_PATH} \
         --tensorboard-queue-size 1 \
@@ -303,6 +321,7 @@ megatron_options=" \
 # --cpu-optimizer \
 # --load ${CHECKPOINT_PATH} \
 # --rampup-batch-size 32 32 1953125 \
+# --recompute-activations # 重计算用
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then
 megatron_options="${megatron_options} \
@@ -364,10 +383,12 @@ DISTRIBUTED_ARGS="
     --node_rank=$NODE_RANK\
     --master_addr=$MASTER_ADDR \
     --master_port=$MASTER_PORT\
+    --num_gpus=$LOCAL_WORLD_SIZE\
     --hostfile=$hostfile"
 
 # --bind_cores_to_rank
 # --node_rank=$RANK\
+# --num_gpus=$LOCAL_WORLD_SIZE\
 
 
 ds=/mnt/huangyonghua/bupt/deepspeed-all-offload/bin/deepspeed
