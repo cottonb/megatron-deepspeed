@@ -56,20 +56,29 @@ SEQ_LEN=2048
 # MODEL_SIZE=0.35
 
 ## GPT-3 Large 760M
-MODEL_SIZE=0.76
-NUM_LAYERS=24
-HIDDEN_SIZE=1536
-NUM_ATTN_HEADS=16
-# GLOBAL_BATCH_SIZE=256
-GLOBAL_BATCH_SIZE=64
-LR=2.5e-4
-MIN_LR=2.5e-5
-
-
-
-## GPT-3 XL 1.3B
-# MODEL_SIZE=1.3
+# MODEL_SIZE=0.76
 # NUM_LAYERS=24
+# HIDDEN_SIZE=1536
+# NUM_ATTN_HEADS=16
+# # GLOBAL_BATCH_SIZE=256
+# GLOBAL_BATCH_SIZE=64
+# LR=2.5e-4
+# MIN_LR=2.5e-5
+
+
+
+# ## GPT-3 XL 1.3B
+MODEL_SIZE=1.3
+NUM_LAYERS=24
+HIDDEN_SIZE=2048
+NUM_ATTN_HEADS=16
+GLOBAL_BATCH_SIZE=512
+LR=2.0e-4
+MIN_LR=2.0e-5
+
+## GPT-3 XL 1.3B x 2
+# MODEL_SIZE=1.3
+# NUM_LAYERS=48
 # HIDDEN_SIZE=2048
 # NUM_ATTN_HEADS=16
 # GLOBAL_BATCH_SIZE=512
@@ -94,6 +103,24 @@ MIN_LR=2.5e-5
 # LR=1.6e-4
 # MIN_LR=1.6e-5
 
+# ## GPT-3 6.7B
+# MODEL_SIZE=6.7
+# NUM_LAYERS=32
+# HIDDEN_SIZE=4096
+# NUM_ATTN_HEADS=32
+# GLOBAL_BATCH_SIZE=128
+# LR=1.2e-4
+# MIN_LR=1.2e-5
+
+## GPT-3 6.7B 但层数翻倍，大小应该也翻倍了
+# MODEL_SIZE=13
+# NUM_LAYERS=64
+# HIDDEN_SIZE=4096
+# NUM_ATTN_HEADS=32
+# GLOBAL_BATCH_SIZE=128
+# LR=1.2e-4
+# MIN_LR=1.2e-5
+
 ## GPT-3 6.7B
 # MODEL_SIZE=6.7
 # NUM_LAYERS=32
@@ -108,7 +135,25 @@ MIN_LR=2.5e-5
 # NUM_LAYERS=40
 # HIDDEN_SIZE=5120
 # NUM_ATTN_HEADS=40
+# GLOBAL_BATCH_SIZE=128
+# LR=1.0e-4
+# MIN_LR=1.0e-5
+
+## GPT-3 13B
+# MODEL_SIZE=13
+# NUM_LAYERS=40
+# HIDDEN_SIZE=5120
+# NUM_ATTN_HEADS=40
 # GLOBAL_BATCH_SIZE=1024
+# LR=1.0e-4
+# MIN_LR=1.0e-5
+
+## GPT-3 26B
+# MODEL_SIZE=13
+# NUM_LAYERS=96
+# HIDDEN_SIZE=5120
+# NUM_ATTN_HEADS=40
+# GLOBAL_BATCH_SIZE=128
 # LR=1.0e-4
 # MIN_LR=1.0e-5
 
@@ -167,6 +212,7 @@ NUM_GPUS=$LOCAL_WORLD_SIZE
 
 total_gpus=$(($NUM_GPUS * $WORLD_SIZE))
 mid_batch_size=$(($total_gpus * $BATCH_SIZE))
+# mid_batch_size=$(($mid_batch_size * 4))
 echo 节点数:$WORLD_SIZE
 echo 总gpu数:$total_gpus
 echo 中等batch_size:$mid_batch_size
@@ -304,9 +350,9 @@ megatron_options=" \
         --num-workers 0 \
         --fp16 \
 
-        
-
+        --cpu-optimizer\
         --recompute-activations\
+        
 
         --save ${CHECKPOINT_PATH} \
         --tensorboard-queue-size 1 \
@@ -321,7 +367,11 @@ megatron_options=" \
 # --cpu-optimizer \
 # --load ${CHECKPOINT_PATH} \
 # --rampup-batch-size 32 32 1953125 \
-# --recompute-activations # 重计算用
+# --recompute-activations\ # 重计算用
+
+# --recompute-granularity full\ 完全重计算
+# --recompute-method uniform \
+# --recompute-num-layers 1 \
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then
 megatron_options="${megatron_options} \
