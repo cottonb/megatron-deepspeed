@@ -68,13 +68,13 @@ SEQ_LEN=2048
 
 
 # ## GPT-3 XL 1.3B
-MODEL_SIZE=1.3
-NUM_LAYERS=24
-HIDDEN_SIZE=2048
-NUM_ATTN_HEADS=16
-GLOBAL_BATCH_SIZE=512
-LR=2.0e-4
-MIN_LR=2.0e-5
+# MODEL_SIZE=1.3
+# NUM_LAYERS=24
+# HIDDEN_SIZE=2048
+# NUM_ATTN_HEADS=16
+# GLOBAL_BATCH_SIZE=512
+# LR=2.0e-4
+# MIN_LR=2.0e-5
 
 ## GPT-3 XL 1.3B x 2
 # MODEL_SIZE=1.3
@@ -86,13 +86,13 @@ MIN_LR=2.0e-5
 # MIN_LR=2.0e-5
 
 ## GPT-3 2.7B 缩小了global batch 
-# MODEL_SIZE=2.7
-# NUM_LAYERS=32
-# HIDDEN_SIZE=2560
-# NUM_ATTN_HEADS=32
-# GLOBAL_BATCH_SIZE=64
-# LR=1.6e-4
-# MIN_LR=1.6e-5
+MODEL_SIZE=2.7
+NUM_LAYERS=32
+HIDDEN_SIZE=2560
+NUM_ATTN_HEADS=32
+GLOBAL_BATCH_SIZE=64
+LR=1.6e-4
+MIN_LR=1.6e-5
 
 ## GPT-3 2.7B
 # MODEL_SIZE=2.7
@@ -353,6 +353,8 @@ megatron_options=" \
         --cpu-optimizer\
         --recompute-activations\
         
+        --profile pt
+        --profile_steps 4,6
 
         --save ${CHECKPOINT_PATH} \
         --tensorboard-queue-size 1 \
@@ -372,6 +374,9 @@ megatron_options=" \
 # --recompute-granularity full\ 完全重计算
 # --recompute-method uniform \
 # --recompute-num-layers 1 \
+
+# --profile pt
+# --profile_steps 0,4
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then
 megatron_options="${megatron_options} \

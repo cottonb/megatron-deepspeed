@@ -18,6 +18,7 @@ def trace_handler(prof: torch.profiler.profile):
    prof.export_memory_timeline(f"{file_name}.html", device="cuda:0")
 
 
+
 def train(num_iter=5, device="cuda:0"):
     model = nn.Transformer(d_model=512, nhead=2, num_encoder_layers=2, num_decoder_layers=2).to(device=device)
     x = torch.randn(size=(1, 1024, 512), device=device)
@@ -26,27 +27,55 @@ def train(num_iter=5, device="cuda:0"):
     labels = torch.rand_like(model(x, tgt))
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters())
-    with torch.profiler.profile(
+
+    # with torch.profiler.profile(
+    #         activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
+    #         schedule=torch.profiler.schedule(wait=0, warmup=0, active=6, repeat=1),
+    #         record_shapes=True,
+    #         profile_memory=True,
+    #         with_stack=True,
+    #         on_trace_ready=trace_handler,
+    # ) as prof:
+    #     assert prof.profiler is not None, "属性空的"
+    #     for _ in range(num_iter):
+    #         prof.step()
+    #         with record_function("## forward ##"): 
+    #             y = model(x, tgt)
+
+    #         with record_function("## backward ##"):
+    #             loss = criterion(y, labels)
+    #             loss.backward()
+    #             print(loss.item())
+
+    #         with record_function("## optimizer ##"):
+    #             optimizer.step()
+    #             optimizer.zero_grad(set_to_none=True)
+
+
+    prof = torch.profiler.profile(
             activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
             schedule=torch.profiler.schedule(wait=0, warmup=0, active=6, repeat=1),
             record_shapes=True,
             profile_memory=True,
             with_stack=True,
             on_trace_ready=trace_handler,
-    ) as prof:
-        for _ in range(num_iter):
-            prof.step()
-            with record_function("## forward ##"): 
-                y = model(x, tgt)
+    )
 
-            with record_function("## backward ##"):
-                loss = criterion(y, labels)
-                loss.backward()
-                print(loss.item())
+    prof.start()
 
-            with record_function("## optimizer ##"):
-                optimizer.step()
-                optimizer.zero_grad(set_to_none=True)
+    assert prof.profiler is not None, "属性空的"
+    for _ in range(num_iter):
+        prof.step()
+        y = model(x, tgt)
+
+        loss = criterion(y, labels)
+        loss.backward()
+        print(loss.item())
+
+        optimizer.step()
+        optimizer.zero_grad(set_to_none=True)
+    
+    prof.stop()
 
 
 if __name__ == "__main__":
