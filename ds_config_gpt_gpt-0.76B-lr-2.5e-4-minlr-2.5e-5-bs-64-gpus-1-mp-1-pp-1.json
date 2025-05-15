@@ -10,6 +10,7 @@
       "pin_memory": true,
       "ratio": 0.3
     }
+    
   },
 
   "gradient_clipping": 1.0,

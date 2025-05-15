@@ -5,3 +5,5 @@ pip show datasets || pip install datasets
 pip show py-cpuinfo || pip install py-cpuinfo
 pip show hjson || pip install hjson
 pip show transformers || pip install transformers
+
+pip show flash-attn || pip install flash-attn --no-build-isolation

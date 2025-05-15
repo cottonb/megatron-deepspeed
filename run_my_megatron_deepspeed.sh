@@ -352,6 +352,7 @@ megatron_options=" \
 
         --cpu-optimizer\
         --recompute-activations\
+        --use-flash-attn-v2\
         
 
         --save ${CHECKPOINT_PATH} \
@@ -372,6 +373,9 @@ megatron_options=" \
 # --recompute-granularity full\ 完全重计算
 # --recompute-method uniform \
 # --recompute-num-layers 1 \
+
+# --use-flash-attn\
+# --use-flash-attn-v2\
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then
 megatron_options="${megatron_options} \
