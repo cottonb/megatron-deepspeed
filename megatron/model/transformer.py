@@ -1663,6 +1663,7 @@ class ParallelTransformer(MegatronModule):
             assert args.transformer_impl == 'local', \
                 "Transformer engine does not support Retro layers."
         def build_layer(layer_number, n_e):
+            print(f'进入build layer')
             if args.transformer_impl == 'local':
                 current_layer_type = _get_layer_type(
                     model_type, layer_type, self.retro_layer_numbers,
@@ -1675,6 +1676,7 @@ class ParallelTransformer(MegatronModule):
                     drop_path_rate=self.drop_path_rates[layer_number - 1],
                     num_experts=n_e)
             else:
+                print(f'构筑layer')
                 assert config.num_attention_heads == config.num_key_value_heads, \
                         'Transformer_engine does not support GQA'
                 return transformer_engine.pytorch.TransformerLayer(

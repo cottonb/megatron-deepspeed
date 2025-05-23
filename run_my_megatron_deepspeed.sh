@@ -6,12 +6,17 @@ pip show py-cpuinfo || pip install py-cpuinfo
 pip show hjson || pip install hjson
 pip show transformers || pip install transformers
 
+# export DS_ACCELERATOR=cpu
+
+export CUDA_DEVICE_MAX_CONNECTIONS=1
+
 export PYTHONPATH=$PYTHONPATH:/mnt/huangyonghua/bupt/deepspeed-all-offload
 export ENABLE_ALL_OFFLOAD=1
 
 export OMP_NUM_THREADS=10
 
 export LOCAL_WORLD_SIZE=$(python3 -c 'import torch;print(torch.cuda.device_count())')
+# export LOCAL_WORLD_SIZE=1
 
 
 #!/bin/bash
@@ -19,7 +24,9 @@ DIR=`pwd`
 ###############################################################################
 ### Main configs
 ## GPT-3 models use 2K sequence length/context window
-SEQ_LEN=2048
+# SEQ_LEN=2048
+SEQ_LEN=512
+
 
 ### The "GPT-3 XXX" below are configs from GPT-3 paper
 ### https://arxiv.org/abs/2005.14165, choose based on
@@ -68,13 +75,13 @@ SEQ_LEN=2048
 
 
 # ## GPT-3 XL 1.3B
-MODEL_SIZE=1.3
-NUM_LAYERS=24
-HIDDEN_SIZE=2048
-NUM_ATTN_HEADS=16
-GLOBAL_BATCH_SIZE=512
-LR=2.0e-4
-MIN_LR=2.0e-5
+# MODEL_SIZE=1.3
+# NUM_LAYERS=24
+# HIDDEN_SIZE=2048
+# NUM_ATTN_HEADS=16
+# GLOBAL_BATCH_SIZE=512
+# LR=2.0e-4
+# MIN_LR=2.0e-5
 
 ## GPT-3 XL 1.3B x 2
 # MODEL_SIZE=1.3
@@ -149,13 +156,22 @@ MIN_LR=2.0e-5
 # MIN_LR=1.0e-5
 
 ## GPT-3 26B
-# MODEL_SIZE=13
+MODEL_SIZE=26
+NUM_LAYERS=96
+HIDDEN_SIZE=5120
+NUM_ATTN_HEADS=40
+GLOBAL_BATCH_SIZE=128
+LR=1.0e-4
+MIN_LR=1.0e-5
+
+## GPT-3 175B 改造
+# MODEL_SIZE=175
 # NUM_LAYERS=96
-# HIDDEN_SIZE=5120
-# NUM_ATTN_HEADS=40
+# HIDDEN_SIZE=12288
+# NUM_ATTN_HEADS=96
 # GLOBAL_BATCH_SIZE=128
-# LR=1.0e-4
-# MIN_LR=1.0e-5
+# LR=0.6e-4
+# MIN_LR=0.6e-5
 
 ## GPT-3 175B
 # MODEL_SIZE=175
@@ -198,7 +214,7 @@ LR_DECAY_TOKENS=26000000
 ## Micro batch size per GPU
 ## Make sure that BATCH_SIZE <= GLOBAL_BATCH_SIZE*PP_SIZE*MP_SIZE/NUM_GPUS
 # BATCH_SIZE=2
-BATCH_SIZE=4
+BATCH_SIZE=8
 
 ## Model parallelism, 1 is no MP
 MP_SIZE=1
@@ -351,8 +367,11 @@ megatron_options=" \
         --fp16 \
 
         --cpu-optimizer\
-        --recompute-activations\
-        --use-flash-attn-v2\
+
+        --recompute-granularity full \
+        --recompute-method uniform \
+        --recompute-num-layers 1 \
+        
         
 
         --save ${CHECKPOINT_PATH} \
@@ -368,13 +387,16 @@ megatron_options=" \
 # --cpu-optimizer \
 # --load ${CHECKPOINT_PATH} \
 # --rampup-batch-size 32 32 1953125 \
-# --recompute-activations\ # 重计算用
 
-# --recompute-granularity full\ 完全重计算
+# 重计算用
+# --recompute-activations\ 
+
+# 完全重计算
+# --recompute-granularity full \
 # --recompute-method uniform \
 # --recompute-num-layers 1 \
 
-# --use-flash-attn\
+# --use-flash-attn\ # 现在网上下载的都是v2，这个版本不能用了
 # --use-flash-attn-v2\
 
 if [ "${ACTIVATION_CHECKPOINT}" = "true" ]; then

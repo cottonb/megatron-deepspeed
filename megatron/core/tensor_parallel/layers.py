@@ -551,24 +551,38 @@ class ColumnParallelLinear(torch.nn.Module):
                         self.output_size_per_partition, 0, init_method,
                         stride=stride, return_master_weight=keep_master_weight_for_test)
             else:
+                # self.weight = Parameter(torch.empty(
+                #     self.output_size_per_partition, self.input_size,
+                #     device=get_accelerator().current_device_name(), dtype=config.params_dtype))
+                shape = (self.output_size_per_partition, self.input_size)
                 self.weight = Parameter(torch.empty(
-                    self.output_size_per_partition, self.input_size,
-                    device=get_accelerator().current_device_name(), dtype=config.params_dtype))
+                    0,
+                    device='cpu', dtype=config.params_dtype))
+                self.weight.all_offload_shape = shape
                 if config.perform_initialization:
                     _initialize_affine_weight_gpu(self.weight, init_method,
                                                   partition_dim=0, stride=stride)
         else:
             self.weight = None
 
+        # mytodo: 新建的model放到了gpu导致占了大量的显存
+
         if bias:
             if config.use_cpu_initialization:
                 self.bias = Parameter(torch.empty(
                     self.output_size_per_partition, dtype=config.params_dtype))
             else:
+                # self.bias = Parameter(torch.empty(
+                #     self.output_size_per_partition,
+                #     device=get_accelerator().current_device_name(),
+                #     dtype=config.params_dtype))
+                shape = (self.output_size_per_partition,)
                 self.bias = Parameter(torch.empty(
-                    self.output_size_per_partition,
-                    device=get_accelerator().current_device_name(),
+                    0,
+                    device='cpu',
                     dtype=config.params_dtype))
+                self.bias.all_offload_shape = shape
+                
             set_tensor_model_parallel_attributes(self.bias, True, 0, stride)
             if config.perform_initialization:
                 # Always initialize bias to zero.

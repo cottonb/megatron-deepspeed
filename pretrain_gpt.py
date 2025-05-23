@@ -22,7 +22,10 @@ from megatron.arguments import core_transformer_config_from_args
 
 import deepspeed
 from deepspeed.runtime.utils import see_memory_usage
-from deepspeed.accelerator.real_accelerator import get_accelerator
+from deepspeed.accelerator.real_accelerator import get_accelerator, set_accelerator
+from deepspeed.accelerator.cpu_accelerator import CPU_Accelerator
+from deepspeed.accelerator.cuda_accelerator import CUDA_Accelerator
+
 import os
 import subprocess
 
@@ -81,6 +84,9 @@ def model_provider(pre_process=True, post_process=True):
                 update_rotary_pos_emb(args.seq_length)
 
         else:
+            # ds_accelerator = CPU_Accelerator()
+            # set_accelerator(ds_accelerator)
+            # print(f'当前设备:{type(get_accelerator())}')
             model = GPTModel(
                 config=config,
                 num_tokentypes=0,
@@ -88,7 +94,14 @@ def model_provider(pre_process=True, post_process=True):
                 pre_process=pre_process,
                 post_process=post_process
             )
+            # ds_accelerator = CUDA_Accelerator()
+            # set_accelerator(ds_accelerator)
+            # print(f'当前设备:{type(get_accelerator())}')
+            
+            
+            # print(f'替换设备完成')
     see_memory_usage(f"After Building Model", force=True)
+    # assert 0 > 1, '人工故障'
     return model
 
 
@@ -364,6 +377,7 @@ def set_seed(seed):
 
 if __name__ == "__main__":
     # set_seed(58)
+    
     git_ds_info()
     num_threads = os.environ.get("OMP_NUM_THREADS")
     print(f'执行gpt, 线程数：{num_threads}')
