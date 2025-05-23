@@ -555,10 +555,12 @@ class ColumnParallelLinear(torch.nn.Module):
                 #     self.output_size_per_partition, self.input_size,
                 #     device=get_accelerator().current_device_name(), dtype=config.params_dtype))
                 shape = (self.output_size_per_partition, self.input_size)
+                numel = self.output_size_per_partition * self.input_size
                 self.weight = Parameter(torch.empty(
                     0,
                     device='cpu', dtype=config.params_dtype))
-                self.weight.all_offload_shape = shape
+                self.weight.empty_shape = shape
+                self.weight.empty_numel = numel
                 if config.perform_initialization:
                     _initialize_affine_weight_gpu(self.weight, init_method,
                                                   partition_dim=0, stride=stride)
@@ -577,11 +579,13 @@ class ColumnParallelLinear(torch.nn.Module):
                 #     device=get_accelerator().current_device_name(),
                 #     dtype=config.params_dtype))
                 shape = (self.output_size_per_partition,)
+                numel = self.output_size_per_partition
                 self.bias = Parameter(torch.empty(
                     0,
                     device='cpu',
                     dtype=config.params_dtype))
-                self.bias.all_offload_shape = shape
+                self.bias.empty_shape = shape
+                self.bias.empty_numel = numel
                 
             set_tensor_model_parallel_attributes(self.bias, True, 0, stride)
             if config.perform_initialization:
