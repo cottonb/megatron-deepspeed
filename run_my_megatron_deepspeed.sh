@@ -20,6 +20,7 @@ DIR=`pwd`
 ### Main configs
 ## GPT-3 models use 2K sequence length/context window
 SEQ_LEN=2048
+# SEQ_LEN=512
 
 ### The "GPT-3 XXX" below are configs from GPT-3 paper
 ### https://arxiv.org/abs/2005.14165, choose based on
@@ -103,14 +104,14 @@ SEQ_LEN=2048
 # LR=1.6e-4
 # MIN_LR=1.6e-5
 
-# ## GPT-3 6.7B
-# MODEL_SIZE=6.7
-# NUM_LAYERS=32
-# HIDDEN_SIZE=4096
-# NUM_ATTN_HEADS=32
-# GLOBAL_BATCH_SIZE=128
-# LR=1.2e-4
-# MIN_LR=1.2e-5
+# ## GPT-3 6.7B，小batch
+MODEL_SIZE=6.7
+NUM_LAYERS=32
+HIDDEN_SIZE=4096
+NUM_ATTN_HEADS=32
+GLOBAL_BATCH_SIZE=128
+LR=1.2e-4
+MIN_LR=1.2e-5
 
 ## GPT-3 6.7B 但层数翻倍，大小应该也翻倍了
 # MODEL_SIZE=13
@@ -131,13 +132,13 @@ SEQ_LEN=2048
 # MIN_LR=1.2e-5
 
 ## GPT-3 13B
-MODEL_SIZE=13
-NUM_LAYERS=40
-HIDDEN_SIZE=5120
-NUM_ATTN_HEADS=40
-GLOBAL_BATCH_SIZE=128
-LR=1.0e-4
-MIN_LR=1.0e-5
+# MODEL_SIZE=13
+# NUM_LAYERS=40
+# HIDDEN_SIZE=5120
+# NUM_ATTN_HEADS=40
+# GLOBAL_BATCH_SIZE=128
+# LR=1.0e-4
+# MIN_LR=1.0e-5
 
 ## GPT-3 13B
 # MODEL_SIZE=13
@@ -199,6 +200,7 @@ LR_DECAY_TOKENS=26000000
 ## Make sure that BATCH_SIZE <= GLOBAL_BATCH_SIZE*PP_SIZE*MP_SIZE/NUM_GPUS
 # BATCH_SIZE=2
 BATCH_SIZE=4
+# BATCH_SIZE=8
 
 ## Model parallelism, 1 is no MP
 MP_SIZE=1
@@ -351,8 +353,10 @@ megatron_options=" \
         --fp16 \
 
         --cpu-optimizer\
-        --recompute-activations\
         
+        --recompute-granularity full\
+        --recompute-method uniform \
+        --recompute-num-layers 1 \
 
         --save ${CHECKPOINT_PATH} \
         --tensorboard-queue-size 1 \
@@ -367,9 +371,12 @@ megatron_options=" \
 # --cpu-optimizer \
 # --load ${CHECKPOINT_PATH} \
 # --rampup-batch-size 32 32 1953125 \
-# --recompute-activations\ # 重计算用
 
-# --recompute-granularity full\ 完全重计算
+# 重计算用
+# --recompute-activations\
+
+# 完全重计算
+# --recompute-granularity full\
 # --recompute-method uniform \
 # --recompute-num-layers 1 \
 

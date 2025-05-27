@@ -88,6 +88,13 @@ def copy_tensor_model_parallel_attributes(destination_tensor, source_tensor):
     for attribute in _MODEL_PARALLEL_ATTRIBUTE_DEFAULTS:
         maybe_copy(attribute)
 
+def initialize_bias_in_all_offload(bias, init_method=None):
+    with torch.no_grad():
+        bias.zero_()
+
+def initialize_weight_in_all_offload(weight, init_method):
+    with get_cuda_rng_tracker().fork():
+        init_method(weight)
 
 def _initialize_affine_weight_gpu(weight, init_method,
                                   partition_dim, stride=1):
@@ -536,6 +543,8 @@ class ColumnParallelLinear(torch.nn.Module):
         self.skip_bias_add = skip_bias_add
         self.config = config
 
+        # mytodo: 做空壳
+
         # Parameters.
         # Note: torch.nn.functional.linear performs XA^T + b and as a result
         # we allocate the transpose.
@@ -551,9 +560,22 @@ class ColumnParallelLinear(torch.nn.Module):
                         self.output_size_per_partition, 0, init_method,
                         stride=stride, return_master_weight=keep_master_weight_for_test)
             else:
+                
+                # self.weight = Parameter(torch.empty(
+                #     self.output_size_per_partition, self.input_size,
+                #     device=get_accelerator().current_device_name(), dtype=config.params_dtype))
+
+                shape = (self.output_size_per_partition, self.input_size,)
+                numel = self.output_size_per_partition * self.input_size
                 self.weight = Parameter(torch.empty(
-                    self.output_size_per_partition, self.input_size,
+                    0, 0,
                     device=get_accelerator().current_device_name(), dtype=config.params_dtype))
+                
+                self.weight.empty_shape = shape
+                self.weight.empty_numel = numel
+                self.weight.init_method = init_method
+                self.weight.init_in_all_offload = initialize_weight_in_all_offload
+
                 if config.perform_initialization:
                     _initialize_affine_weight_gpu(self.weight, init_method,
                                                   partition_dim=0, stride=stride)
@@ -565,10 +587,23 @@ class ColumnParallelLinear(torch.nn.Module):
                 self.bias = Parameter(torch.empty(
                     self.output_size_per_partition, dtype=config.params_dtype))
             else:
+                # self.bias = Parameter(torch.empty(
+                #     self.output_size_per_partition,
+                #     device=get_accelerator().current_device_name(),
+                #     dtype=config.params_dtype))
+                
+                shape = (self.output_size_per_partition, )
+                numel = self.output_size_per_partition
                 self.bias = Parameter(torch.empty(
-                    self.output_size_per_partition,
+                    0,
                     device=get_accelerator().current_device_name(),
                     dtype=config.params_dtype))
+                
+                self.bias.empty_shape = shape
+                self.bias.empty_numel = numel
+                self.bias.init_method = None
+                self.bias.init_in_all_offload = initialize_bias_in_all_offload
+                
             set_tensor_model_parallel_attributes(self.bias, True, 0, stride)
             if config.perform_initialization:
                 # Always initialize bias to zero.
