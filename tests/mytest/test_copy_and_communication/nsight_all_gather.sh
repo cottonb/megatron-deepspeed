@@ -1,0 +1,1 @@
+# nsys profile -o ./output/nsys/output_file_${RANK}_${current_time}.qdrep --delay 200 --duration=20 sh run_all.sh
